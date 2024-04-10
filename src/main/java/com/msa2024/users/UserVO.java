@@ -23,6 +23,8 @@ public class UserVO {
     private List<String> hobbies; // 사용자의 취미 ID 목록
     private List<HobbyVO> hobbyList; // 사용자의 취미 ID 목록
     private String hobbyid; // 또는 적절한 데이터 타입
-
+    public boolean isEqualsPwd(String pwd) {
+        return this.password.equals(pwd);
+    }
 
 }

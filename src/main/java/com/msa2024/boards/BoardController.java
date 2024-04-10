@@ -1,6 +1,8 @@
 package com.msa2024.boards;
 
+import com.msa2024.users.UserVO;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,14 +71,44 @@ public class BoardController implements Serializable {
 
         return map;
     }
+    @PostMapping("insert")
+    @ResponseBody
+    public Object insert(@ModelAttribute BoardVO board , HttpSession session ) throws ServletException, IOException {
+        log.info("등록 {}", board);
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", -99);
+        map.put("statusMessage", "게시물 등록이 성공 하였습니다");
+//전처리로 세션정보를 얻는다
+        log.info("게시물등록시 sessionId = " + session.getId());
+        //로그인 사용자 설정
+        UserVO loginVO = (UserVO) session.getAttribute("loginVO");
+        if (loginVO != null) {
+            //로그인한 사용자를 게시물 작성자로 설정한다
+            board.setUserid(loginVO.getUserid());
+            int updated = boardService.insert(board);
+            if (updated == 1) { //성공
+                map.put("status", 0);
+            }
+        } else {
+            map.put("status", -98);
+            map.put("statusMessage", "로그인 정보가 존재하지 않습니다");
+        }
+        return map;
+    }
+
     @GetMapping("/view")
-    public String view(BoardVO board, Model model) throws ServletException, IOException {
+    public String view(@RequestParam("boardid") int boardid, Model model) throws ServletException, IOException {
         log.info("상세보기");
 
-        model.addAttribute("board", boardService.view(board));
+        BoardVO board = new BoardVO();
+        board.setBoardid(boardid);
+
+        BoardVO result = boardService.view(board);
+        model.addAttribute("board", result);
 
         return "/boards/view";
     }
+
     @GetMapping("updateForm")
     public Object updateForm(BoardVO board, Model model) throws ServletException, IOException {
         System.out.println("수정화면");
@@ -85,21 +117,30 @@ public class BoardController implements Serializable {
         model.addAttribute("board", boardService.updateForm(board));
 
         return "boards/updateForm";
+    }
+
+    @GetMapping("boardForm")
+    public String boardForm(BoardVO board, Model model) throws ServletException, IOException {
+        System.out.println("입력화면");
+
+        // 2. jsp 출력할 값 설
+
+        return "boards/boardForm";
+    }
+    @DeleteMapping(value = "/delete")
+    public String delete(@RequestParam("boardid") String boardid, RedirectAttributes redirectAttributes) {
+        try {
+            int result = boardService.delete(boardid);
+            if (result == 1) {
+                // 삭제 성공 시 메시지 설정
+                redirectAttributes.addFlashAttribute("message", "게시물이 성공적으로 삭제되었습니다.");
+            } else {
+                // 삭제 실패 시 메시지 설정
+                redirectAttributes.addFlashAttribute("message", "게시물 삭제에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            // 예외 처리
+            redirectAttributes.addFlashAttribute("message", "오류가 발생하여 게시물 삭제에 실패하였습니다.");
+        }
+        return "redirect:/boards/list";
     }}
-//    @GetMapping(value = "/delete", method = RequestMethod.POST)
-//    public String delete(@RequestParam("boardid") String boardid, RedirectAttributes redirectAttributes) {
-//        try {
-//            int result = boardService.delete(boardid);
-//            if (result == 1) {
-//                // 삭제 성공 시 메시지 설정
-//                redirectAttributes.addFlashAttribute("message", "게시물이 성공적으로 삭제되었습니다.");
-//            } else {
-//                // 삭제 실패 시 메시지 설정
-//                redirectAttributes.addFlashAttribute("message", "게시물 삭제에 실패하였습니다.");
-//            }
-//        } catch (Exception e) {
-//            // 예외 처리
-//            redirectAttributes.addFlashAttribute("message", "오류가 발생하여 게시물 삭제에 실패하였습니다.");
-//        }
-//        return "redirect:/boards/list";
-//    }}

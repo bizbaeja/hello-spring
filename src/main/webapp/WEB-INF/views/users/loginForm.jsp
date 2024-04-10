@@ -21,9 +21,10 @@
 					<a href="mainPage.jsp">bizbaeja</a>
 				</h1>
 				<a href="user.do?action=about">소개</a> <a
-					href="user.do?action=signupForm">회원가입</a> <a
-					href="user.do?action=loginForm">로그인</a> <a
-					href="user.do?action=list">회원정보</a> <a href="board.do?action=list">게시판</a>
+				<a href="/users/about">소개</a>
+				<a href="/users/signupForm">회원가입</a>
+				<a href="user.do?action=list">회원정보</a>
+				<a href=/boards/list>게시판</a>
 			</div>
 			<div class="header-nav">
 				<c:if test="${sessionScope.userid != null}">
@@ -33,10 +34,10 @@
 			</div>
 		</div>
 
-		<div class="user-detail">
+		<qdiv class="user-detail">
 			<h2>로그인</h2>
-			<form id="loginForm" action="user.do" method="post">
-				<input type="hidden" name="action" value="login"> 
+			<form id="loginForm"  method="post">
+<%--				<input type="hidden" name="action" value="login"> --%>
 				<label>아이디: </label> 
 					<input type="text" id="userid" name="userid" required="required">
 					<br /> 
@@ -49,9 +50,9 @@
 				</div>
 
 			</form>
-		</div>
+		</qdiv>
 	</div>
-	<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
-	<script type="text/javascript" src="<c:url value='/js/login.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/login.js'/>"></script>
 </body>
 </html>

@@ -21,6 +21,11 @@ public class BoardVO {
     //검색키
     private String searchKey;
 
-
-
+    public BoardVO(int boardid, String title, String content, String userid, String viewCount) {
+        this.boardid = boardid;
+        this.title = title;
+        this.content = content;
+        this.userid = userid;
+        this.viewCount = viewCount;
+    }
 }

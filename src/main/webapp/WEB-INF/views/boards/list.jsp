@@ -141,7 +141,7 @@
     });
 </script>
 <div class="button-container">
-    <a href="board.do?action=insertForm">등록</a>
+    <a href="/boards/boardForm">등록</a>
 </div>
 
 <script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>

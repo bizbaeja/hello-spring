@@ -57,7 +57,14 @@ public class BoardService {
     public int delete(String boardid) {
         return boardMapper.delete(boardid);
     }
+    public int boardForm(BoardVO board) {
+        return boardMapper.insert(board);
+    }
+    public int insert(BoardVO board)  {
+        return boardMapper.insert(board);
+    }
     public BoardVO updateForm(BoardVO board)  {
         return boardMapper.view(board);
     }
+
 }

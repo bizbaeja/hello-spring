@@ -19,6 +19,5 @@ public interface BoardMapper {
     int update(BoardVO boardVO);
     void allDelete();
     int delete(String boardid);
-    void insert(BoardVO boardVO);
-
+    int insert(BoardVO boardVO);
 }

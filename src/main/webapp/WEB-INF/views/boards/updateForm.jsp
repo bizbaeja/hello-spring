@@ -11,6 +11,13 @@
 <h1>
     게시물 수정 수정양식
 </h1>
+<nav>
+    <a href="user.do?action=about">소개</a> <a
+    <a href="/users/about">소개</a>
+    <a href="/users/signupForm">회원가입</a>
+    <a href="user.do?action=list">회원정보</a>
+    <a href=/boards/list>게시판</a>
+</nav>
 <form id="rForm" action="" method="post">
     <label>게시물 번호: </label> <input type="text" id="boardid" name="boardid" value="${board.boardid}" readonly="readonly"> <br/>
     <label>제목 : </label><input type="text" id="title" name="title" value="${board.title}"><br/>

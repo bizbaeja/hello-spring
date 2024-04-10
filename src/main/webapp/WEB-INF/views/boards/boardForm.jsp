@@ -11,11 +11,12 @@
     <div id="wrap">
         <div id="nav">
             <div class="header-nav">
-                <a href="mainPage.jsp"><img src="logo.jpeg" alt="로고"></a>
-                <h1><a href="mainPage.jsp">bizbaeja</a></h1>
-                <a href="about.jsp">소개</a>
-                <a href="signup.jsp">회원가입</a>
-                <a href="login.jsp">로그인</a>
+                <a href="user.do?action=about">소개</a> <a
+                <a href="/users/about">소개</a>
+                <a href="/users/signupForm">회원가입</a>
+                <a href="user.do?action=list">회원정보</a>
+                <a href=/boards/list>게시판</a>
+
             </div>
             <div class="header-nav">
                 <c:if test="${sessionScope.userid != null}">
@@ -37,18 +38,18 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <form class="board-form" action="board.do" method="post">
-                            <input type="hidden" name="action" value="board"/>
-                            <input type="hidden" name="userid" value="${board.userid}"/>
+                        <form id="insertForm" action="insert" method="post" class="board-form" >
+                            <input type="hidden"  value="board"/>
+                            <input type="hidden" name="userid" value="${sessionScope.userid}"/>
                             <div class="form-control">
                                 <label for="title">제목:</label>
                                 <input type="text" id="title" name="title" required>
                             </div>
                             <div class="form-control">
                                 <label for="content">내용:</label>
-                                <textarea id="content" name="content" rows="5" required></textarea>
+                                <textarea id="content1" name="content" rows="5" required></textarea>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control">d
                                 <button type="submit">게시글 작성</button>
                             </div>
                         </form>
@@ -57,7 +58,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/js/boardUpdate.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/boardInsert.js'/>"></script>
 </body>
 </html>
