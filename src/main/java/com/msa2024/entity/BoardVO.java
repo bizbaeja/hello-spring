@@ -1,4 +1,4 @@
-package com.msa2024.boards;
+package com.msa2024.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

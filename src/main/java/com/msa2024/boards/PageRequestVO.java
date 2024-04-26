@@ -1,8 +1,8 @@
 package com.msa2024.boards;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
+
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 @Builder
 @Data
 @AllArgsConstructor //모든 인자를 다 전달해준다.
@@ -18,7 +20,7 @@ import java.net.URLEncoder;
 public class PageRequestVO {
 	//validationCheck 용도
     @Builder.Default
-    @jakarta.validation.constraints.Min(value = 1)
+    @Min(value=1)
     @Positive //양수 pom.xml
     private int pageNo = 1;
 

@@ -2,6 +2,7 @@ package com.msa2024.boards;
 
 
 import com.msa2024.boards.mapper.BoardMapper;
+import com.msa2024.entity.BoardVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

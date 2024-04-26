@@ -1,17 +1,18 @@
 package com.msa2024.boards;
 
-import com.msa2024.users.UserVO;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
+import com.msa2024.entity.BoardVO;
+import com.msa2024.entity.MemberVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/boards")
-public class BoardController implements Serializable {
+public class BoardController implements Serializable{
     private static final long serialVersionUID = 1L;
 
     //xml 또는 어노터이션 처리하면 스프링
@@ -29,12 +30,29 @@ public class BoardController implements Serializable {
     private final BoardService boardService;
 //    private final CodeService codeService;
 
+    @RequestMapping("jsonBoardInfo")
+    @ResponseBody
+    public Map<String, Object> jsonBoardInfo(@RequestBody BoardVO board) throws ServletException, IOException {
+        log.info("json 상세보기 -> {}", board);
+        //1. 처리
+        BoardVO resultVO = boardService.view(board);
 
+        Map<String, Object> map = new HashMap<>();
+        if (resultVO != null) { //성공
+            map.put("status", 0);
+            map.put("jsonBoard", resultVO);
+        } else {
+            map.put("status", -99);
+            map.put("statusMessage", "게시물 정보 존재하지 않습니다");
+        }
+
+        return map;
+    }
     @GetMapping("/list")
     //@Valid 추가: Controller 메서드의 파라미터에 @Valid를 추가하여 입력 객체를 검증하도록 할 수 있습니다. 예를 들어, list(BoardVO board, Model model) 메서드에 @Valid를 적용하면,
     // BoardVO 객체가 자동으로 검증됩니다.
     //원래 코드
-    public String list(@Valid PageRequestVO pageRequestVO, BindingResult bindingResult, Model model) throws ServletException, IOException {
+    public String list(@Validated PageRequestVO pageRequestVO, BindingResult bindingResult, Model model) throws ServletException, IOException {
         log.info("목록");
 
         log.info(pageRequestVO.toString());
@@ -81,10 +99,10 @@ public class BoardController implements Serializable {
 //전처리로 세션정보를 얻는다
         log.info("게시물등록시 sessionId = " + session.getId());
         //로그인 사용자 설정
-        UserVO loginVO = (UserVO) session.getAttribute("loginVO");
+        MemberVO loginVO = (MemberVO) session.getAttribute("loginVO");
         if (loginVO != null) {
             //로그인한 사용자를 게시물 작성자로 설정한다
-            board.setUserid(loginVO.getUserid());
+            board.setUserid(loginVO.getMember_id());
             int updated = boardService.insert(board);
             if (updated == 1) { //성공
                 map.put("status", 0);

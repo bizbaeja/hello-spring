@@ -4,27 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UserVO {
-
-    private String userid;
+    private String uid;
+    private String pwd;
     private String name;
     private String email;
-    private String password;
-    private String passwordConfirm;
-    private String birth;
-    private String gender;
-    private String register;
-    private List<String> hobbies; // 사용자의 취미 ID 목록
-    private List<HobbyVO> hobbyList; // 사용자의 취미 ID 목록
-    private String hobbyid; // 또는 적절한 데이터 타입
-    public boolean isEqualsPwd(String pwd) {
-        return this.password.equals(pwd);
-    }
-
 }

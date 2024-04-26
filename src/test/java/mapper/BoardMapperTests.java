@@ -1,16 +1,12 @@
 package mapper;
 
-import com.msa2024.boards.BoardVO;
+import com.msa2024.entity.BoardVO;
 import com.msa2024.boards.PageRequestVO;
 import com.msa2024.boards.PageResponseVO;
 import com.msa2024.boards.mapper.BoardMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import com.msa2024.boards.BoardVO;
-import com.msa2024.boards.PageRequestVO;
-import com.msa2024.boards.PageResponseVO;
-import com.msa2024.boards.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

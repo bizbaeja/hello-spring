@@ -1,6 +1,6 @@
 package com.msa2024.boards.mapper;
 
-import com.msa2024.boards.BoardVO;
+import com.msa2024.entity.BoardVO;
 import com.msa2024.boards.PageRequestVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

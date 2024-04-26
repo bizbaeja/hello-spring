@@ -13,7 +13,7 @@
     </sql>
 
 
-    <select id="getList" resultType="com.msa2024.boards.BoardVO">
+    <select id="getList" resultType="com.msa2024.entity.BoardVO">
 
         SELECT * FROM tb_board b inner join tb_users u on b.userid = u.userid
 
@@ -28,7 +28,7 @@
         <include refid="search"/>
     </select>
 
-    <select id="view" resultType="com.msa2024.boards.BoardVO">
+    <select id="view" resultType="com.msa2024.entity.BoardVO">
         select
             b.*, m.name bwriter
         from tb_board b inner join tb_users m on b.userid = m.userid
