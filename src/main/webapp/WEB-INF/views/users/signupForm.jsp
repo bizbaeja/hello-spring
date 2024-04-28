@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href='<c:url value="/resources/css/signup.css"/>'>
+    <link rel="stylesheet" type="text/css" href='<c:url value="/css/signup.css"/>'>
     <title>회원가입</title>
 </head>
 <body>
@@ -74,8 +74,8 @@
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/js/login.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/login.js'/>"></script>
     <script type="text/javascript">
         const viewForm = document.getElementById("viewForm");
         const userid = document.getElementById("userid");

@@ -48,8 +48,8 @@
     });
 
 </script>
-<script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/boardUpdate.js'/>"></script>
+<script type="text/javascript" src="<c:url value='js/common.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/boardUpdate.js'/>"></script>
 
 </body>
 </html>

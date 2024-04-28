@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
-	href='<c:url value="/resources/css/login.css"/>'>
+	href='<c:url value="/css/login.css"/>'>
 <title>회원가입</title>
 </head>
 <body>
@@ -34,15 +34,15 @@
 			</div>
 		</div>
 
-		<qdiv class="user-detail">
+		<div class="user-detail">
 			<h2>로그인</h2>
-			<form id="loginForm"  method="post">
+			<form id="loginForm"  method="post" action="/users">
 <%--				<input type="hidden" name="action" value="login"> --%>
 				<label>아이디: </label> 
-					<input type="text" id="userid" name="userid" required="required">
+					<input type="text" id="uid" name="uid" required="required">
 					<br /> 
 					<label>비밀번호 : </label> 
-					<input type="password" id="password" name="password" required="required">
+					<input type="password" id="pwd" name="pwd" required="required">
 					<br />
 				<!-- <label for="autologin">자동로그인</label> <input type="checkbox" id="autologin" name="autologin" value="Y">     -->
 				<div>
@@ -50,9 +50,9 @@
 				</div>
 
 			</form>
-		</qdiv>
+		</div>
 	</div>
-	<script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
-	<script type="text/javascript" src="<c:url value='/resources/js/login.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/js/login.js'/>"></script>
 </body>
 </html>

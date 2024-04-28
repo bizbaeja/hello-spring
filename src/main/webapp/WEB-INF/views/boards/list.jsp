@@ -144,8 +144,8 @@
     <a href="/boards/boardForm">등록</a>
 </div>
 
-<script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/update.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/update.js'/>"></script>
 </body>
 </html>
 

@@ -8,14 +8,17 @@
 <head>
     <meta charset="UTF-8">
     <title>User insert form</title>
-    <link rel="stylesheet" type="text/css" href='<c:url value="/resources/css/main.css"/>'>
+    <link rel="stylesheet" type="text/css" href='<c:url value="/css/main.css"/>'>
 </head>
 <body>
     <div id="wrap">
           <div id="nav">
 		        <div class="header-nav">
-			    <a href="mainPage.jsp"><img src="../../../resources/static/logo.jpeg" alt="로고"></a>
-			    <h1><a href="mainPage.jsp">bizbaeja</a></h1>
+					<a href="/mainPage.jsp">
+						<img src="/images/logo.jpeg" alt="로고">
+					</a>
+
+					<h1><a href="mainPage.jsp">bizbaeja</a></h1>
 			    <a href="/users/about">소개</a>
 			    <a href="/users/signupForm">회원가입</a>
 			    <a href="/users/loginForm">로그인</a>
@@ -24,7 +27,7 @@
 </div>  	<div class="header-nav">
 				  <c:if test="${sessionScope.userid != null}">
 				   <a href="#" id="logoutLink">로그아웃</a>
-				   <a href="/users/updateForm.jsp">회원정보수정</a>
+				   <a href="/us ers/updateForm.jsp">회원정보수정</a>
 	   			</c:if>
 	   			<c:if test="${sessionScope.userid == 'bituser'}">
 				   <a href="user.do?action=list" id="admin">관리자</a>
@@ -33,10 +36,11 @@
 			</div>
           
 	<nav>
+	</nav>
         </div>
-    
+
         <div id="content">
-        <img src="../../../resources/static/octopus.gif" alt="환영합니다" width="1000" height="300">
+        <img src="images/octopus.gif" alt="환영합니다" width="1000" height="300">
         </div>
        
         <div id="footer">jhcompany</div>

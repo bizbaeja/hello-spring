@@ -36,7 +36,7 @@
     <a href="/boards/list">목록</a>
 </div>
 
-<script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/delete.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/delete.js'/>"></script>
 </body>
 </html>

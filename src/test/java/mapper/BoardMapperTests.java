@@ -4,7 +4,6 @@ import com.msa2024.entity.BoardVO;
 import com.msa2024.boards.PageRequestVO;
 import com.msa2024.boards.PageResponseVO;
 import com.msa2024.boards.mapper.BoardMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-@Slf4j
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/root-context.xml")
 public class BoardMapperTests {
@@ -53,8 +52,8 @@ public class BoardMapperTests {
     	List<BoardVO> list = boardMapper.getList(pageRequestVO);
         int total = boardMapper.getTotalCount(pageRequestVO);
         
-        log.info("list {} ", list);
-        log.info("total  = {} ", total);
+//        log.info("list {} ", list);
+//        log.info("total  = {} ", total);
 
         PageResponseVO<BoardVO> pageResponseVO = PageResponseVO.<BoardVO>withAll()
                 .list(list)
@@ -62,8 +61,8 @@ public class BoardMapperTests {
                 .size(pageRequestVO.getSize())
                 .pageNo(pageRequestVO.getPageNo())
                 .build();
-
-        log.info("pageResponseVO  = {} ", pageResponseVO);
+//
+//        log.info("pageResponseVO  = {} ", pageResponseVO);
 
     }
 }

@@ -26,7 +26,10 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("username = {}", username);
+        System.out.println("here here");
+
         MemberVO resultVO = userMapper.login(MemberVO.builder().member_id(username).build());
+        System.out.println(resultVO);
         if (resultVO == null) {
             log.info(username + " 사용자가 존재하지 않습니다");
             throw new UsernameNotFoundException(username + " 사용자가 존재하지 않습니다");

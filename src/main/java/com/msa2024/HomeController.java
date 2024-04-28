@@ -1,4 +1,4 @@
-package com.msa2024.msa2024;
+package com.msa2024;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

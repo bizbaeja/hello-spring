@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.msa2024.login.LoginMapper">
-<!-- 
-테이블 스크립트   
+<mapper namespace="com.msa2024.users.LoginMapper">
+<!--
+테이블 스크립트
 CREATE TABLE `tb_member2` (
 	`member_id` VARCHAR(50) NOT NULL COMMENT '회원아이디' COLLATE 'utf8mb4_general_ci',
 	`member_pwd` VARCHAR(100) NOT NULL COMMENT '회원비밀번호' COLLATE 'utf8mb4_general_ci',
@@ -26,34 +26,34 @@ ENGINE=InnoDB
 
  -->
 <select id="login" resultType="com.msa2024.entity.MemberVO">
-		select 
-			*  
+		select
+			*
 		from tb_member2
 		where member_id = #{member_id}
 	</select>
-	
+
 	<update id="updateMemberLastLogin">
 		update tb_member2 set
 			member_last_login_time = now()
-		where member_id = #{member_id}  
+		where member_id = #{member_id}
 	</update>
-	
+
 	<update id="loginCountInc" parameterType="String">
 		update tb_member2 set
 			member_login_count = member_login_count + 1
-			, member_account_locked = case when member_login_count > 3 then 'Y' ELSE 'N' end 
-		where member_id = #{member_id} 
-	</update> 
+			, member_account_locked = case when member_login_count > 3 then 'Y' ELSE 'N' end
+		where member_id = #{member_id}
+	</update>
 
-	 
+
 	<update id="loginCountClear">
-		update tb_member set 
-			 member_login_count = 0 
+		update tb_member set
+			 member_login_count = 0
 			,member_account_locked = 'N'
-		where member_id = #{member_id} 
-	</update> 
-    
+		where member_id = #{member_id}
+	</update>
 
-	
-    
+
+
+
 </mapper>

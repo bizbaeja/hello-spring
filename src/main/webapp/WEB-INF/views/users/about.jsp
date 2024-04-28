@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href='<c:url value="/resources/css/main.css"/>'>
+<link rel="stylesheet" type="text/css" href='<c:url value="/css/main.css"/>'>
 </head>
 <body>
  <div id="wrap">

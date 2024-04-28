@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>User insert form</title>
 <link rel="stylesheet" type="text/css"
-	href="<c:url value='/resources/css/read.css'/>">
+	href="<c:url value='/css/read.css'/>">
 </head>
 <body>
 	<div class="wrap">

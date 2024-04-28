@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @Component
-public class AuthSucessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	@Autowired
 	private UserMapper userMapper;
@@ -36,7 +36,7 @@ public class AuthSucessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 		//성공시 이동할 주소
 		//설정(onfig)에서 defaultSuccessUrl("/") 으로 설정한 것 보다 아래의 코드로 설정한 것이 변경되서 동작함 
-		setDefaultTargetUrl("/board/list");
+		setDefaultTargetUrl("/boards/list");
 
 		super.onAuthenticationSuccess(request, response, authentication);
 	}

@@ -9,14 +9,14 @@
 <meta charset="UTF-8">
 <title>User insert form</title>
 <link rel="stylesheet" type="text/css"
-	href="<c:url value='/resources/css/read.css'/>">
+	href="<c:url value='/css/read.css'/>">
 </head>
 <body>
 	<div class="wrap">
 		<!-- 생략된 네비게이션 및 기타 코드 -->
 		<div id="nav">
 			<div class="header-nav">
-					    <a href="mainPage.jsp"><img src="logo.jpeg" alt="로고"></a>
+					    <a href="mainPage.jsp"><img src=" ./logo.jpeg" alt="로고"></a>
 			    <h1><a href="mainPage.jsp">bizbaeja</a></h1>
 				<a href="/users/about">소개</a>
 				<a href="/users/signupForm">회원가입</a>
@@ -87,7 +87,7 @@
 	</div>
 
 
-	<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
 	<script>
 function jsDelete() {
 	if (confirm("정말로 삭제하시겠습니까?")) {

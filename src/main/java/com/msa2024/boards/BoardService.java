@@ -19,7 +19,6 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class BoardService {
-    private static final long serialVersionUID = 1L;
 
     private final BoardMapper  boardMapper;
 

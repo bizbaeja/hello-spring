@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href='<c:url value="/resources/css/board.css"/>'>
+    <link rel="stylesheet" type="text/css" href='<c:url value="/css/board.css"/>'>
     <title>Board Post</title>
 </head>
 <body>
@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/resources/js/boardInsert.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/js/boardInsert.js'/>"></script>
 </body>
 </html>

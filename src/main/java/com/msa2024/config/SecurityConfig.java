@@ -1,7 +1,7 @@
 package com.msa2024.config;
 
 import com.msa2024.users.AuthFailureHandler;
-import com.msa2024.users.AuthSucessHandler;
+import com.msa2024.users.AuthSuccessHandler;
 import com.msa2024.users.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,12 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -27,15 +26,12 @@ import java.net.URLEncoder;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@ConditionalOnDefaultWebSecurity
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-
-public class SecurityConfig {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserService userService;
     @Autowired
-    private AuthSucessHandler authSucessHandler;
+    private AuthSuccessHandler authSuccessHandler;
     @Autowired
     private AuthFailureHandler authFailureHandler;
 
@@ -44,13 +40,12 @@ public class SecurityConfig {
     // 회원 비밀번호 등록시 해당 메서드를 이용하여 암호화해야 로그인 처리시 동일한 해시로 비교한다.
     // 의존성 주입을 위한 함수를 Bean 객체로 리턴할 수 있게 함수를 구현한다
     @Bean
-    @Order(SecurityProperties.BASIC_AUTH_ORDER)
-
     public BCryptPasswordEncoder encryptPassword() {
         return new BCryptPasswordEncoder();
     }
     // 시큐리티가 로그인 과정에서 password를 가로챌때 해당 해쉬로 암호화해서 비교한다.
 
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //아래 부분은 의존성 주입 함수를 호출함
         auth.userDetailsService(userService).passwordEncoder(encryptPassword());
@@ -58,26 +53,27 @@ public class SecurityConfig {
     // SecurityFilterChain 빈 등록
     //url 설정
 
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public void configure (HttpSecurity http) throws Exception {
 		/*
 		 csrf 토큰 활성화시 사용
 		 쿠키를 생성할 때 HttpOnly 태그를 사용하면 클라이언트 스크립트가 보호된 쿠키에 액세스하는 위험을 줄일 수 있으므로 쿠키의 보안을 강화할 수 있다.
 		*/
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
-        http//.csrf().disable()	// csrf 토큰을 비활성화
+
+        http.csrf().disable()	// csrf 토큰을 비활성화
                 .authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
-                .antMatchers("/", "/users/loginForm", "/js/**", "/css/**", "/image/**").permitAll() // 해당 경로들은 접근을 허용
+                .antMatchers("/", "/users/loginForm", "/js/**", "/css/**", "/images/**").permitAll() // 해당 경로들은 접근을 허용
                 .anyRequest() // 다른 모든 요청은
                 .authenticated() // 인증된 유저만 접근을 허용
                 .and()
                 .formLogin() // 로그인 폼은
-                .usernameParameter("email")
-                .passwordParameter("password")
+                .usernameParameter("uid")
+                .passwordParameter("pwd")
                 .loginPage("/users/loginForm") // 해당 주소로 로그인 페이지를 호출한다.
                 .loginProcessingUrl("/users") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
                 .defaultSuccessUrl("/")       // 로그인 성공시 이동할 URL, 성공시 요청을 처리할 핸들러에서 설정하지 않으면 해동 설정값으로 동작함
-                .successHandler(authSucessHandler) // 성공시 요청을 처리할 핸들러
+                .successHandler(authSuccessHandler) // 성공시 요청을 처리할 핸들러
                 .failureHandler(authFailureHandler) // 실패시 요청을 처리할 핸들러
                 .and()
                 .logout()
@@ -90,9 +86,9 @@ public class SecurityConfig {
                 .sessionManagement()
                 .maximumSessions(1) // 세션 최대 허용 수 1, -1인 경우 무제한 세션 허용
                 .maxSessionsPreventsLogin(false) // true면 중복 로그인을 막고, false면 이전 로그인의 세션을 해제
-                .expiredUrl("/login/loginForm?error=true&exception=" + URLEncoder.encode("세션이 만료되었습니다. 다시 로그인 해주세요", "UTF-8"))  // 세션이 만료된 경우 이동 할 페이지를 지정
+                .expiredUrl("/users/loginForm?error=true&exception=" + URLEncoder.encode("세션이 만료되었습니다. 다시 로그인 해주세요", "UTF-8"))  // 세션이 만료된 경우 이동 할 페이지를 지정
         ;
-        return http.build();
+
     }
 
 }

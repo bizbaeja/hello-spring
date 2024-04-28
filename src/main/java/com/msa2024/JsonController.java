@@ -1,4 +1,4 @@
-package com.msa2024.msa2024;
+package com.msa2024;
 
 
 import lombok.extern.slf4j.Slf4j;
