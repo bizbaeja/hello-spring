@@ -36,9 +36,9 @@
     </select>
 
     <update id="incViewCount" >
-        update tb_board set
-            view_count = view_count + 1
-        where bno = #{bno}
+        UPDATE tb_board
+        SET bViewCount = bViewCount + 1
+        WHERE bno = #{bno}
     </update>
 
     <delete id="delete" >

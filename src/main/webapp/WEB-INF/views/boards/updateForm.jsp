@@ -17,9 +17,9 @@
 </h1>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <form id="rForm" action="" method="post">
-    <label>게시물 번호: </label> <input type="text" id="boardid" name="boardid" value="${board.boardid}" readonly="readonly"> <br/>
-    <label>제목 : </label><input type="text" id="title" name="title" value="${board.title}"><br/>
-    <label>내용: </label> <input type="text" id="content" name="content" value="${board.content}"><br/>
+    <label>게시물 번호: </label> <input type="text" id="bno" name="bno" value="${board.bno}" readonly="readonly"> <br/>
+    <label>제목 : </label><input type="text" id="btitle" name="btitle" value="${board.btitle}"><br/>
+    <label>내용: </label> <input type="text" id="bcontent" name="bcontent" value="${board.bcontent}"><br/>
     <div>
         <input type="submit" value="수정">
         <a href="javascript:history(-1)">취소</a>
@@ -38,7 +38,7 @@
             if(json.status == 0) {
                 //성공
                 alert("게시물 정보 수정을 성공 하였습니다");
-                location = "view?boardid=" + boardid.value;
+                location = "view?bno=" + boardid.value;
             } else {
                 alert(json.statusMessage);
             }
@@ -46,7 +46,7 @@
     });
 
 </script>
-<script type="text/javascript" src="<c:url value='js/common.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/boardUpdate.js'/>"></script>
 
 </body>

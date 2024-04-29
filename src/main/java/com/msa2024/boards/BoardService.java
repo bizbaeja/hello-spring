@@ -60,7 +60,7 @@ public class BoardService {
         }
         //view Count의 값이 증가된 객체를 얻는다
         BoardVO resultVO = boardMapper.view(board);
-        log.info(resultVO.getView_count());
+        log.info(resultVO.getBViewCount());
         log.info(resultVO.toString());
 
         //첨부파일을 얻는다
@@ -108,7 +108,7 @@ public class BoardService {
 
         String bcontent = board.getBcontent();
         //파일 다운로드  URL을 구성한다
-        final String imageURL = "/board/image/";
+        final String imageURL = "/boards/image/";
 
         //1. board_token의 값에 대한 이미지 목록을 얻는다
         List<BoardImageFileVO> boardImageFiles = boardImageFileMapper.getBoardImages(board.getBoard_token());

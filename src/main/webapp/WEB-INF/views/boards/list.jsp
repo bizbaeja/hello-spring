@@ -50,10 +50,10 @@
     </tr>
     <c:forEach var="boards" items="${pageResponseVO.list}">
         <tr>
-            <td onclick="jsView('${boards.boardid}')"  style="cursor:pointer;">${boards.boardid}</td>
-            <td><a href="/boards/view?boardid=${boards.boardid}">${boards.title}</a></td>
+            <td onclick="jsView('${boards.bno}')"  style="cursor:pointer;">${boards.bno}</td>
+            <td><a href="/boards/view?bno=${boards.bno}">${boards.btitle}</a></td>
             <td>${boards.bwriter}</td>
-            <td>${boards.boardid}</td>
+            <td>${boards.bno}</td>
         </tr>
     </c:forEach>
 </table>
