@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msa2024.boards.BoardFileMapper">
+<!-- 
+테이블 스크립트   
+CREATE TABLE `tb_board_file` (
+	`board_file_id` INT(11) NOT NULL AUTO_INCREMENT,
+	`bno` INT(11) NOT NULL ,
+	`original_filename` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`real_filename` VARCHAR(800) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`content_type` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`size` BIGINT(20) NULL DEFAULT NULL,
+	`make_date` DATETIME NULL DEFAULT current_timestamp(),
+	PRIMARY KEY (`board_file_id`) USING BTREE
+)
+ENGINE=InnoDB
+;
+ -->
+    <select id="getList" resultType="com.msa2024.entity.BoardFileVO">
+		select 
+			*  
+		from tb_board_file
+		where bno = #{bno}
+		order by board_file_id
+    </select>
+
+	<select id="getBoardFile" resultType="com.msa2024.entity.BoardFileVO">
+		select 
+			*  
+		from tb_board_file
+		where board_file_id = #{board_file_id}
+	</select>
+	
+	<select id="getBoardFileVO" resultType="com.msa2024.entity.BoardFileVO">
+		select 
+			*  
+		from tb_board_file
+		where bno = #{bno}
+		limit 0, 1
+	</select>
+	
+	<delete id="delete" >
+		delete 
+		from tb_board_file 
+		where board_file_id = #{board_file_id}
+	</delete>
+	
+	<insert id="insert" >
+		insert into tb_board_file (
+			bno
+			,original_filename
+			,real_filename
+			,content_type
+			,size
+		) values (
+			#{bno}
+			,#{original_filename}
+			,#{real_filename}
+			,#{content_type}
+			,#{size}
+		) 
+	</insert>
+    
+</mapper>

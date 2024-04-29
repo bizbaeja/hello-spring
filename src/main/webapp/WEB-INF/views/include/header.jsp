@@ -15,15 +15,15 @@
   	<c:choose>
   		<c:when test="${empty loginVO}">
 			<li class="nav-item">
-		    	<a class="nav-link" href="<c:url value='/member/loginForm'/>" id="login_link">로그인</a>
+		    	<a class="nav-link" href="<c:url value='/users/loginForm/'/>" id="login_link">로그인</a>
 			</li>
   		</c:when>
   		<c:otherwise>
 			<li class="nav-item">
-			    <a class="nav-link" href="<c:url value='/member/logout'/>" id="login_link">${loginVO.member_name}</a>
+			    <a class="nav-link" href="<c:url value='/users/logout/'/>" id="login_link">${loginVO.member_name}</a>
 			</li>
 			<li class="nav-item">
-			    <a class="nav-link" href="<c:url value='/member/mypage'/>" id="mypage_link">나의정보</a>
+			    <a class="nav-link" href="<c:url value='/users/'/>" id="mypage_link">나의정보</a>
 			</li>
   		</c:otherwise>
   	</c:choose>

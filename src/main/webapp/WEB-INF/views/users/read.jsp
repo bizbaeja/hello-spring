@@ -10,29 +10,13 @@
 <title>User insert form</title>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/css/read.css'/>">
+	<%@ include file="/WEB-INF/views/include/meta.jsp" %>
+	<%@ include file="/WEB-INF/views/include/css.jsp" %>
+	<%@ include file="/WEB-INF/views/include/js.jsp" %>
 </head>
 <body>
 	<div class="wrap">
-		<!-- 생략된 네비게이션 및 기타 코드 -->
-		<div id="nav">
-			<div class="header-nav">
-					    <a href="mainPage.jsp"><img src=" ./logo.jpeg" alt="로고"></a>
-			    <h1><a href="mainPage.jsp">bizbaeja</a></h1>
-				<a href="/users/about">소개</a>
-				<a href="/users/signupForm">회원가입</a>
-				<a href="/users/loginForm">로그인</a>
-				<a href="user.do?action=list">회원정보</a>
-				<a href=/boards/list>게시판</a>
-			</div>
-			<div class="header-nav">
-				<c:if test="${sessionScope.userid != null}">
-					<a href="#" id="logoutLink">로그아웃</a>
-					<a href="updateForm.jsp">회원정보수정</a>
-				</c:if>
-			</div>
-
-			<nav>
-		</div>
+		<%@ include file="/WEB-INF/views/include/header.jsp" %>
 
 		<div class="user-detail">
 			<h1>View User Detail</h1>

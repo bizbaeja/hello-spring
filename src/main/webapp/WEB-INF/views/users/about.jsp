@@ -8,23 +8,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/main.css"/>'>
+	<%@ include file="/WEB-INF/views/include/meta.jsp" %>
+	<%@ include file="/WEB-INF/views/include/css.jsp" %>
+	<%@ include file="/WEB-INF/views/include/js.jsp" %>
 </head>
 <body>
  <div id="wrap">
-                    <div id="nav">
-		        <div class="header-nav">
-			    <a href="mainPage.jsp"><img src="logo.jpeg" alt="로고"></a>
-			    <h1><a href="mainPage.jsp">bizbaeja</a></h1>
-			    <a href="about.jsp">소개</a>
-			    <a href="signup.jsp">회원가입</a>
-			    <a href="login.jsp">로그인</a>
-</div>  	<div class="header-nav">
-				  <c:if test="${sessionScope.userid != null}">
-				   <a href="users?action=logout">로그아웃</a>
-				   <a href="users?action=updateForm">회원정보수정</a>
-	   			</c:if>
-			</div>
-
+	 <%@ include file="/WEB-INF/views/include/header.jsp" %>
     
         <div id="content">
          제 회사는 

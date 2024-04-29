@@ -5,6 +5,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <%@ include file="/WEB-INF/views/include/meta.jsp" %>
+    <%@ include file="/WEB-INF/views/include/css.jsp" %>
+    <%@ include file="/WEB-INF/views/include/js.jsp" %>
     <title>게시물 상세보기</title>
     <style>
         label { display: inline-block; width: 200px; }
@@ -13,13 +16,7 @@
 </head>
 <body>
 <h1>게시물 상세보기</h1>
-<nav>
-    <a href="user.do?action=about">소개</a>
-    <a href="/users/about">소개</a>
-    <a href="/users/signupForm">회원가입</a>
-    <a href="user.do?action=list">회원정보</a>
-    <a href="/boards/list">게시판</a>
-</nav>
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
 <label>게시물 번호: ${board.boardid}</label><br/>
 <label>제목: ${board.title}</label><br/>
 <label>내용: ${board.content}</label><br/>

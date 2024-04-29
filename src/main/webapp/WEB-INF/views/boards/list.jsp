@@ -3,6 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,13 +11,18 @@
     <meta charset="UTF-8">
     <title>게시물 목록</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
+    <%@ include file="/WEB-INF/views/include/meta.jsp" %>
+    <%@ include file="/WEB-INF/views/include/css.jsp" %>
+    <%@ include file="/WEB-INF/views/include/js.jsp" %>
 </head>
 <body>
 <h1>게시물목록</h1>
-<h3>로그인 : ${loginVO.name} </h3>
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
+
+<h3>로그인 : <sec:authentication property="principal.member_name" />
+</h3>
 <form id="searchForm" action="list" method="post" >
+    <sec:csrfInput/>
     <input type="hidden" id="size" name="size" value="${pageRequestVO.size}">
     <label>제목</label>
     <input type="text" id="searchKey" name="searchKey" value="${param.searchKey}">
@@ -141,7 +147,7 @@
     });
 </script>
 <div class="button-container">
-    <a href="/boards/boardForm">등록</a>
+    <a href="/boards/insertForm">등록</a>
 </div>
 
 <script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>

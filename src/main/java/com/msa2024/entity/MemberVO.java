@@ -74,4 +74,9 @@ public class MemberVO implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public boolean isEqualsPwd() {
+        return true;
+    }
+
 }

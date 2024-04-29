@@ -91,7 +91,24 @@ body {
 .board-form .form-control button:hover {
     background-color: #0277bd;
 }
+#rForm {
+    text-align:center;
+}
+.btitle {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+}
 
+.ck.ck-editor {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ck-editor__editable {
+    height: 80vh;
+}
 /* 미디어 쿼리 */
 @media (max-width: 768px) {
     .vertical-container {

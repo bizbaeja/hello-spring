@@ -4,28 +4,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class BoardVO {
-    private int boardid;
-    private String title;
-    private String content;
-    private String userid;
+    private String bno;
+    private String btitle;
+    private String bcontent;
+    private String member_id;
+    private String bdate;
+    private String view_count;
     private String bwriter;
-    private String viewCount;
-    private String postdate;
+    //게시물 토큰 변수 선언
+    private String board_token;
 
-    //검색키
-    private String searchKey;
+    //업로드 파일
+    private MultipartFile file;
 
-    public BoardVO(int boardid, String title, String content, String userid, String viewCount) {
-        this.boardid = boardid;
-        this.title = title;
-        this.content = content;
-        this.userid = userid;
-        this.viewCount = viewCount;
-    }
+    //첨부파일
+    private BoardFileVO boardFileVO;
 }

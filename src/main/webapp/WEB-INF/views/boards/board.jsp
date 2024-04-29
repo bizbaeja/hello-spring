@@ -7,25 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/signup.css"/>'>
+    <%@ include file="/WEB-INF/views/include/meta.jsp" %>
+    <%@ include file="/WEB-INF/views/include/css.jsp" %>
+    <%@ include file="/WEB-INF/views/include/js.jsp" %>
 <title>Insert title here</title>
 </head>
 <body>
- <div id="wrap">
-     <div class="header-nav">
-         <a href="user.do?action=about">소개</a> <a
-         <a href="/users/about">소개</a>
-         <a href="/users/signupForm">회원가입</a>
-         <a href="user.do?action=list">회원정보</a>
-         <a href=/boards/list>게시판</a>
-     </div>  	<div class="header-nav">
-     <c:if test="${sessionScope.userid != null}">
-         <a href="#" id="logoutLink">로그아웃</a>
-         <a href="updateForm.jsp">회원정보수정</a>
-     </c:if>
- </div>
-
-     <nav>
-
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
 
 
      <div id="contents">

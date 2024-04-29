@@ -7,33 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/list.css"/>'>
+    <%@ include file="/WEB-INF/views/include/meta.jsp" %>
+    <%@ include file="/WEB-INF/views/include/css.jsp" %>
+    <%@ include file="/WEB-INF/views/include/js.jsp" %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 </head>
 <body>
  <div id="wrap">
-    <nav>
-          <div id="nav">
-		        <div class="header-nav">
-				    <a href="mainPage.jsp"><img src="logo.jpeg" alt="로고"></a>
-			    <h1><a href="mainPage.jsp">bizbaeja</a></h1>
-                    <a href="/users/about">소개</a>
-                    <a href="/users/signupForm">회원가입</a>
-                    <a href="/users/loginForm">로그인</a>
-                    <a href="user.do?action=list">회원정보</a>
-                    <a href=/boards/list>게시판</a>
-				</div>  	
-				<div class="header-nav">
-				  <c:if test="${sessionScope.userid != null}">
-				   <a href="#" id="logoutLink">로그아웃</a>
-				   <a href="updateForm.jsp">회원정보수정</a>
-	   			</c:if>
-			    </div>
-          
-	
-        </div>
-    </nav>
 
+     <%@ include file="/WEB-INF/views/include/header.jsp" %>
 		로그인되었습니다.  
        
 <h1>회원목록</h1>

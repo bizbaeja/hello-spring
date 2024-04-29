@@ -59,6 +59,70 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 */
+menuActive("board_link");
+const csrfParameter = document.querySelector("meta[name='_csrf_parameter']").content;
+const csrfToken = document.querySelector("meta[name='_csrf']").content;
+//이미지 업로드 URL
+const board_image_url = "<c:url value='/board/boardImageUpload?board_token=${board_token}&'/>" + csrfParameter + "=" + csrfToken;
+
+//cfeditor관련 설정
+let bcontent; //cfeditor의 객체를 저장하기 위한 변수
+ClassicEditor.create(document.querySelector('#bcontent'),{
+    //이미지 업로드 URL을 설정한다
+    ckfinder: {
+        uploadUrl : board_image_url
+    }
+})
+    .then(editor => {
+        console.log('Editor was initialized');
+        //ckeditor객체를 전역변수 bcontent에 설정함
+        window.bcontent = editor;
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+const rForm = document.getElementById("rForm");
+rForm.addEventListener("submit", e => {
+    //서버에 form data를 전송하지 않는다
+    e.preventDefault();
+
+    const param = typeof formId == "string" ? formToSerialize(formId) : JSON.stringify(formId);
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+    const headers = {"Content-type" : "application/json; charset=utf-8"};
+    if (csrfToken) {
+        headers[csrfHeader] = csrfToken
+    }
+    fetch(url, {
+        method:"POST",
+        body : param,
+        headers : headers
+    }).then(res => res.json()).then(json => {
+        //서버로 부터 받은 결과를 사용해서 처리 루틴 구현
+        console.log("json ", json );
+        if (handler) handler(json);
+    });
+});
+const myFileFetch = (url, formId, handler) => {
+    const form = document.querySelector("#" + formId);
+    const param = new FormData(form);
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            [csrfHeader]: csrfToken  // Set CSRF token in header
+        },
+        body: param,
+    }).then(res => res.json()).then(json => {
+        console.log("json", json);
+        if (handler) handler(json);
+    }).catch(err => console.error('Error with the fetch operation:', err));
+};
+
+
 document.addEventListener("DOMContentLoaded", function() {
     const updateForm = document.getElementById("updateForm");
 
