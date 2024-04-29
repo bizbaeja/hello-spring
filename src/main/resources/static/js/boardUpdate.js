@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const updateForm = document.getElementById("updateForm");
 
     if (updateForm) {
-		    var boardid = document.getElementById("boardid").value;
+		    var bno = document.getElementById("bno").value;
             var form = document.getElementById("updateForm");
             form.action.value = "update";
             var formData = new FormData(form);

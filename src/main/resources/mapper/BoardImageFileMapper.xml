@@ -41,7 +41,7 @@ ENGINE=InnoDB
 		) 
 	</insert>
 	
-	<select id="findById" resultType="com.msa2024.boards.BoardImageFileVO">
+	<select id="findById" resultType="com.msa2024.entity.BoardImageFileVO">
 		SELECT  
 			 board_image_file_id 
 			,board_token
@@ -60,7 +60,7 @@ ENGINE=InnoDB
 		where board_token = #{board_token}	
 	</update>	
 	
-	<select id="getBoardImageFileList" resultType="BoardImageFileVO">
+	<select id="getBoardImageFileList" resultType="com.msa2024.entity.BoardImageFileVO">
 		select
 			*
 		from tb_board_image_file  
@@ -79,7 +79,7 @@ ENGINE=InnoDB
 		</foreach> 
 	</delete>
 	
-	<select id="getBoardImages" resultType="BoardImageFileVO">
+	<select id="getBoardImages" resultType="com.msa2024.entity.BoardImageFileVO">
 		select
 			*
 		from tb_board_image_file  

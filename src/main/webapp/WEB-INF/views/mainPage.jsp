@@ -16,14 +16,17 @@
 </head>
 <body>
     <div id="wrap">
-        <%@ include file="/WEB-INF/views/include/header.jsp" %>
-        <div id="content">
-        <img src="images/octopus.gif" alt="환영합니다" width="1000" height="300">
+        <div>
+            <%@ include file="/WEB-INF/views/include/header.jsp" %>
         </div>
-       
-        <div id="footer">jhcompany</div>
+
+
     </div>
-    
+    <div id="content">
+        <img src="images/octopus.gif" alt="환영합니다" width="1000" height="300">
+    </div>
+
+    <div id="footer">jhcompany</div>
 </body>
 
 
