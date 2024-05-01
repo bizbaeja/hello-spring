@@ -14,13 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -38,7 +36,7 @@ public class BoardController {
     private final ServletContext application;
 
     @RequestMapping("list")
-    public String list(@Valid PageRequestVO pageRequestVO, BindingResult bindingResult, Model model) throws ServletException, IOException {
+    public String list(@Validated PageRequestVO pageRequestVO, BindingResult bindingResult, Model model) throws ServletException, IOException {
         log.info("목록");
 
         log.info(pageRequestVO.toString());

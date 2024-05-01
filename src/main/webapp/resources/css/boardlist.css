@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+/* 기본 스타일 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #b3e5fc;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+    padding-top: 70px; /* 헤더 높이만큼 여백 추가 */
+}
+
+/* 헤더 내비게이션 스타일 */
+.header-nav {
+    position: fixed; /* 상단에 고정 */
+    top: 0; /* 페이지의 최상단에 위치 */
+    width: 100%; /* 전체 너비 */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #0288d1;
+    padding: 10px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.header-nav h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.header-nav img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.header-nav a {
+    text-decoration: none;
+    color: white;
+    margin: 0 10px;
+}
+
+.header-nav a:hover {
+    text-decoration: underline;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 80%; /* 테이블의 너비 */
+    margin: 20px auto; /* 위 아래 여백과 자동 가운데 정렬 */
+    border-collapse: collapse; /* 테이블 선 겹치기 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+th, td {
+    padding: 10px; /* 셀 패딩 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    border-bottom: 1px solid #ddd; /* 하단 테두리 선 */
+}
+
+th {
+    background-color: #0288d1; /* 헤더 배경색 */
+    color: white; /* 헤더 텍스트 색상 */
+}
+
+tr:hover {
+    background-color: #f2f2f2; /* 마우스 오버 시 배경색 변경 */
+}
+
+/* 버튼 컨테이너 스타일 */
+.button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.button-container a {
+    padding: 10px 20px;
+    font-size: 16px; 
+    background-color: #f5f5f5;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-container a:hover {
+    background-color: #e0e0e0;
+}
+
+/* 미디어 쿼리 */
+@media (max-width: 768px) {
+    table {
+        width: 90%;
+    }
+}
+
+@media (max-width: 600px) {
+    .button-container a {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}

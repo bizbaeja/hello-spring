@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -9,138 +10,151 @@
     <link rel="stylesheet" type="text/css" href='<c:url value="/css/signup.css"/>'>
     <%@ include file="/WEB-INF/views/include/meta.jsp" %>
     <%@ include file="/WEB-INF/views/include/css.jsp" %>
-    <%@ include file="/WEB-INF/views/include/js.jsp" %>
     <title>회원가입</title>
 </head>
 <body>
 
-    <div class="wrap">
-        <!-- 생략된 네비게이션 및 기타 코드 -->
+<div class="wrap">
 
-        <%@ include file="/WEB-INF/views/include/header.jsp" %>
+    <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
-        <div class="user-detail">
-            <h2>회원 가입</h2>
-            <form id="viewForm" action="user.do" method="post">
-            <input type="hidden" id="action" name="action" value="signup">
-                <div>
-                    <label for="userid">아이디:</label>
-                    <input type="text" id="userid" name="userid" required>
-                </div>
-                <div>
-                    <label for="name">이름:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div>
-                    <label for="email">이메일:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div>
-                    <label for="password">비밀번호:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div>
-                    <label for="passwordConfirm">비밀번호 확인:</label>
-                    <input type="password" id="passwordConfirm" name="passwordConfirm" required>
-                </div>
-                <div>
-                    <input type="radio" id="gender1" name="gender" value="male"><label for="gender1">남성</label>
-                    <input type="radio" id="gender2" name="gender" value="female"><label for="gender2">여성</label>
-                    <input type="radio" id="gender3" name="gender" value="other"><label for="gender3">기타</label>
-                </div>
-                <h3>취미 선택</h3>
-                <c:forEach var="entry" items="${hobbiesList}">
-                    <div>
-                        <input type="checkbox" id="hobby<c:out value='${entry.key}'/>" name="hobbies" value="<c:out value='${entry.key}'/>">
-                        <label for="hobby<c:out value='${entry.key}'/>"><c:out value='${entry.value}'/></label>
-                    </div>
-                </c:forEach>
-                <div>
-                    <input type="submit" value="가입">
-                </div>
-            </form>
-        </div>
+    <div class="user-detail">
+        <h2>회원 가입</h2>
+        <form id="signupForm" action="<c:url value='/users/signup'/>" method="post">
+
+            <sec:csrfInput/>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <div>
+            <div>
+                <label for="member_id">아이디:</label>
+                <input type="text" id="member_id" name="member_id" required>
+            </div>
+            <div>
+                <label for="member_name">이름:</label>
+                <input type="text" id="member_name" name="member_name" required>
+            </div>
+            <div>
+                <label for="member_pwd">비밀번호:</label>
+                <input type="password" id="member_pwd" name="member_pwd" required>
+            </div>
+            <div>
+                <label for="passwordConfirm">비밀번호 확인:</label>
+                <input type="password" id="passwordConfirm" required>
+            </div>
+            <div>
+                <label for="member_hand_phone">전화번호:</label>
+                <input type="text" id="member_hand_phone" name="member_hand_phone" required>
+            </div>
+            <div>
+                <label for="member_address">주소:</label>
+                <input type="text" id="member_address" name="member_address" required>
+            </div>
+            <div>
+                <label for="member_detail_address">상세주소:</label>
+                <input type="text" id="member_detail_address" name="member_detail_address" required>
+            </div>
+            <div>
+                <label for="member_birthday">생년월일:</label>
+                <input type="date" id="member_birthday" name="member_birthday" required>
+            </div>
+            <div>
+                <label>성별:</label>
+                <input type="radio" id="gender_male" name="member_gender" value="M"><label for="gender_male">남성</label>
+                <input type="radio" id="gender_female" name="member_gender" value="F"><label for="gender_female">여성</label>
+            </div>
+            <div>
+                <input type="submit" value="가입하기">
+            </div>
+        </form>
     </div>
-    <script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/resources/js/login.js'/>"></script>
-    <script type="text/javascript">
-        const viewForm = document.getElementById("viewForm");
-        const userid = document.getElementById("userid");
-        const password = document.getElementById("password");
-        const passwordConfirm = document.getElementById("passwordConfirm");
-        const name = document.getElementById("name");
-        const email = document.getElementById("email");
-        const maleRadio = document.getElementById("gender1");
-        const femaleRadio = document.getElementById("gender2");
-        const otherRadio = document.getElementById("gender3");
-        let validMemberID = "";
+</div>
 
-        viewForm.addEventListener("submit", function(e) {
-            e.preventDefault();
+<script type="text/javascript">document.addEventListener("DOMContentLoaded", function() {
+    const signupForm = document.getElementById("signupForm");
+    const password = document.getElementById("member_pwd");
+    const passwordConfirm = document.getElementById("passwordConfirm");
 
-           /*  if (validMemberID === "" || userid.value !== validMemberID) {
-                alert("아이디 중복확인 해주세요");
-                return;
-            } */
+    signupForm.addEventListener("submit", function(e) {
+        e.preventDefault();
 
-            let selectedGender = "";
-            if (maleRadio.checked) {
-                selectedGender = maleRadio.value;
-            } else if (femaleRadio.checked) {
-                selectedGender = femaleRadio.value;
-            } else if (otherRadio.checked) {
-                selectedGender = otherRadio.value;
-            } else {
-                alert("성별을 선택해주세요.");
-                return;
-            }
+        if (password.value !== passwordConfirm.value) {
+            alert("비밀번호가 일치하지 않습니다.");
+            passwordConfirm.focus();
+            return;
+        }
 
-            if (password.value !== passwordConfirm.value) {
-                alert("비밀번호가 일치하지 않습니다.");
-                passwordConfirm.focus();
-                return;
-            }
-/*
-            const selectedHobbies = Array.from(document.querySelectorAll('input[name="hobbies"]:checked')).map(cb => cb.value);
-
-            const param = {
-                action: 'signp',
-                userid: userid.value,
-                password: password.value,
-                name: name.value,
-                email: email.value,
-                gender: selectedGender,
-                hobbies: selectedHobbies
-            };
-
-            fetch("user.do", {
-                method: "POST",
-                body: JSON.stringify(param),
-                headers: { "Content-type": "application/json; charset=utf-8" }
-            })
-            .then(res => res.json())
-            .then(json => {
-                if (json.status == 0) {
-                    alert("회원 가입이 완료되었습니다.");
-                    location = "user.do?action=mainPage";
-                } else {
-                    alert(json.statusMessage);
-                }
-            }).catch(error => {
-                console.error('Error:', error);
-                alert("회원가입 처리 중 오류가 발생했습니다.");
-            });
-        });
-        */
-        
-        myFetch("user.do", "viewForm", json => {
-            if (json.status == 0) {
+        // Use the myFetch function provided in common.js to submit the form data
+        myFetch('/users/signup', 'signupForm', function(json) {
+            // Assuming the server sends back a JSON response indicating success or failure
+            if (json.success) {
                 alert("회원 가입이 완료되었습니다.");
-                location = "user.do?action=mainPage";
+                window.location.href = '<c:url value="/"/>';
             } else {
-                alert(json.statusMessage);
+                alert("회원가입에 실패했습니다: " + json.message);
             }
-        }); 
-    </script>
+        });
+    });
+});
+const myFetch = (url, formId, handler) => {
+    const param = typeof formId == "string" ? formToSerialize(formId) : JSON.stringify(formId);
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+    const headers = {"Content-type" : "application/json; charset='utf-8'"};
+    if (csrfToken) {
+        headers[csrfHeader] = csrfToken
+    }
+    fetch(url, {
+        method:"POST",
+        body : param,
+        headers : {
+            "Content-Type":  "application/json; charset='utf-8'"
+        },
+    }).then(res => res.json()).then(json => {
+        //서버로 부터 받은 결과를 사용해서 처리 루틴 구현
+        console.log("json ", json );
+        if (handler) handler(json);
+    });
+}
+const formToSerialize = (formId) => JSON.stringify([].reduce.call(document.querySelector('#' + formId), (data, element) => {
+            //이름이 있는 것을 대상으로함
+            console.log(element);
+            if (element.name == '') return data;
+            //radio와 checkbox인 경우는 반드시 선택된 것만 대상으로함
+            if (element.type == 'radio' || element.type == 'checkbox') {
+                if (element.checked) {
+                    if (typeof data[element.name] == 'undefined') {
+                        //문자열 1건 추가
+                        if (document.querySelector("#" + formId).querySelectorAll("[name='" +element.name+ "']").length == 1 || element.type == 'radio') {
+                            //문자열 값을 배열로 변경
+                            data[element.name] = element.value;
+                        } else if (element.type == 'checkbox') {
+                            //배열로 변경
+                            data[element.name] = [element.value];
+                        }
+                    } else if(typeof data[element.name] == 'string') {
+                        //문자열 값을 배열로 변경
+                        data[element.name] = [data[element.name], element.value];
+                    } else if(typeof data[element.name] == 'object') {
+                        //배열에 문자열 값을 추가
+                        data[element.name].push(element.value);
+                    }
+                }
+            } else {
+                //그외는 모두 대상으로 함
+                data[element.name] = element.value;
+            }
+            return data;
+        },
+        {} //초기값
+    )
+);
+const menuActive = link_id => {
+    document.querySelector("#" + link_id).classList.add("active");
+}
+
+console.log(location.pathname)
+
+</script>
+
 </body>
 </html>

@@ -29,18 +29,18 @@
     <select id="login" resultType="com.msa2024.entity.MemberVO">
         select
             *
-        from tb_member2
+        from tb_member
         where member_id = #{member_id}
     </select>
 
     <update id="updateMemberLastLogin">
-        update tb_member2 set
+        update tb_member set
             member_last_login_time = now()
         where member_id = #{member_id}
     </update>
 
     <update id="loginCountInc">
-        update tb_member2 set
+        update tb_member set
         member_login_count = member_login_count + 1
         <choose>
             <when test="member_login_count > 5">
@@ -52,10 +52,73 @@
         </choose>
         where member_id = #{member_id}
     </update>
+    <!-- Signup -->
+    <insert id="insertUser" parameterType="com.msa2024.entity.MemberVO">
+        INSERT INTO tb_member (
+            member_id,
+            member_pwd,
+            member_name,
+            member_address,
+            member_detail_address,
+            member_hand_phone,
+            member_birthday,
+            member_reg_date,
+            member_update_date,
+            member_authority,
+            member_locked
+        ) VALUES (
+                     #{member_id},
+                     #{member_pwd},
+                     #{member_name},
+                     #{member_address},
+                     #{member_detail_address},
+                     #{member_hand_phone},
+                     #{member_birthday},
+                     NOW(),
+                     NOW(),
+                     #{member_authority},
+                     #{member_locked}
+                 )
+    </insert>
 
+    <!-- 회원 정보 가져오기 -->
+<!--    <select id="getUserByEmail" resultType="com.msa2024.entity.MemberVO">-->
+<!--        SELECT *-->
+<!--        FROM tb_member-->
+<!--        WHERE member_id = #{member_id}-->
+<!--    </select>-->
+
+    <select id="getUserById" resultType="com.msa2024.entity.MemberVO">
+        SELECT *
+        FROM tb_member
+        WHERE member_id = #{member_id}
+    </select>
+    <select id="getUserList" resultType="com.msa2024.entity.MemberVO">
+        SELECT *
+        FROM tb_member
+    </select>
+
+    <!-- 회원정보 수정 -->
+    <update id="updateUser">
+        UPDATE tb_member
+        SET member_pwd = #{member_pwd},
+            member_name = #{member_name},
+            member_address = #{member_address},
+            member_detail_address = #{member_detail_address},
+            member_hand_phone = #{member_hand_phone},
+            member_birthday = #{member_birthday},
+        WHERE id = #{member_id}
+    </update>
+
+    <!-- 탈퇴 -->
+    <delete id="deleteUser">
+        DELETE
+        FROM tb_member
+        WHERE id = #{member_id}
+    </delete>
 
     <update id="loginCountClear">
-        update tb_member2 set
+        update tb_member set
             member_login_count = 0
                             ,member_account_locked = 'N'
         where member_id = #{member_id}

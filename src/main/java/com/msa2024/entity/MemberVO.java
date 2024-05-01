@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class MemberVO implements UserDetails {
 
@@ -24,25 +24,29 @@ public class MemberVO implements UserDetails {
     private String member_pwd;
     private String member_name;
     private String member_address;
-    private String member_phone_number;
+    private String member_detail_address;
+    private String member_hand_phone;
     private String member_gender;
+    private String member_birthday;
+    private String member_authority;
+    private String member_locked;
     private String member_roles;
     private String member_account_expired;
     private String member_account_locked;
     private int    member_login_count;
     private LocalDateTime member_last_login_time;
-
-    public boolean isEqualsPwd(String pwd) {
-        return this.member_pwd.equals(pwd);
-    }
+    private LocalDateTime lockoutTime;
+    private List<GrantedAuthority> roles; // Use Spring Security's GrantedAuthority directly
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collections = new ArrayList<GrantedAuthority>();
-
-        Arrays.stream(member_roles.split(",")).forEach(role -> collections.add(new SimpleGrantedAuthority("ROLE_" + role.trim())));
-
-        return collections;
+        if (roles == null) {
+            roles = new ArrayList<>();
+            Arrays.stream(member_roles.split(",")).forEach(role ->
+                    roles.add(new SimpleGrantedAuthority("ROLE_" + role.trim()))
+            );
+        }
+        return roles;
     }
 
     @Override
@@ -57,26 +61,25 @@ public class MemberVO implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return "N".equalsIgnoreCase(member_account_expired);
+        return !"Y".equalsIgnoreCase(member_account_expired);
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return "N".equalsIgnoreCase(member_account_locked);
+        return !"Y".equalsIgnoreCase(member_account_locked);
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return true; // You might want to add logic here if needed
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !"Y".equalsIgnoreCase(member_locked); // Assuming 'Y' means locked/disabled
     }
 
     public boolean isEqualsPwd() {
         return true;
     }
-
 }

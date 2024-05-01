@@ -1,0 +1,123 @@
+@charset "UTF-8";
+
+/* 기본 스타일 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #b3e5fc;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+    padding-top: 70px; /* 헤더 높이만큼 여백 추가 */
+}
+
+/* 헤더 내비게이션 스타일 */
+.header-nav {
+    position: fixed; /* 상단에 고정 */
+    top: 0; /* 페이지의 최상단에 위치 */
+    width: 100%; /* 전체 너비 */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #0288d1;
+    padding: 10px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.header-nav h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.header-nav img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.header-nav a {
+    text-decoration: none;
+    color: white;
+    margin: 0 10px;
+}
+
+.header-nav a:hover {
+    text-decoration: underline;
+}
+
+/* 폼 스타일 */
+.vertical-container {
+    width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.board-form {
+    margin-top:100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.board-form .form-control {
+    width: 100%; /* 폼 컨트롤 전체 너비 설정 */
+    margin-bottom: 15px;
+}
+
+.board-form .form-control label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.board-form .form-control input[type="text"],
+.board-form .form-control textarea {
+    width: 100%; /* 인풋 및 텍스트 에리어 전체 너비 설정 */
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.board-form .form-control button {
+    padding: 10px 20px;
+    background-color: #0288d1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.board-form .form-control button:hover {
+    background-color: #0277bd;
+}
+#rForm {
+    text-align:center;
+}
+.btitle {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ck.ck-editor {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ck-editor__editable {
+    height: 80vh;
+}
+/* 미디어 쿼리 */
+@media (max-width: 768px) {
+    .vertical-container {
+        width: 80%;
+    }
+}
+
+@media (max-width: 600px) {
+    .vertical-container {
+        width: 100%;
+    }
+}

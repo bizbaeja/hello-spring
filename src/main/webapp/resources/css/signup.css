@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+/* 기본 스타일 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #e1f5fe; /* 밝은 청색 배경 */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+    padding-top: 70px; /* 헤더 높이만큼 여백 추가 */
+}
+
+/* 헤더 스타일 */
+.header-nav {
+    position: fixed; /* 상단에 고정 */
+    top: 0; /* 페이지의 최상단에 위치 */
+    width: 100%; /* 전체 너비 */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #0288d1;
+    padding: 10px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.header-nav h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: white;
+}
+
+.header-nav img {
+    max-width: 80px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.header-nav a {
+    text-decoration: none;
+    color: white;
+    margin: 0 15px;
+}
+
+.header-nav a:hover {
+    text-decoration: underline;
+}
+
+/* 회원가입 폼 스타일 */
+.user-detail {
+    background-color: #fff; /* 흰색 배경 */
+    padding: 40px;
+    margin: 20px auto;
+    width: 60%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-detail h2 {
+    color: #0277bd;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-detail form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.user-detail form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.user-detail form input[type='text'],
+.user-detail form input[type='email'],
+.user-detail form input[type='password'],
+.user-detail form input[type='radio'],
+.user-detail form input[type='checkbox'] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.user-detail form input[type='submit'] {
+    grid-column: span 2; /* 버튼을 두 열에 걸쳐 표시 */
+    padding: 12px;
+    background-color: #0288d1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.user-detail form input[type='submit']:hover {
+    background-color: #0277bd;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .user-detail {
+        width: 90%;
+        padding: 20px;
+    }
+    .user-detail form {
+        grid-template-columns: 1fr;
+    }
+}

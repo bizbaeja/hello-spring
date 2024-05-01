@@ -7,13 +7,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.                                                    BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 @Slf4j
-public class UserService implements UserDetailsService {
+public class UserService  implements UserDetailsService{
 
     @Autowired
     private UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
     @Autowired
     private BCryptPasswordEncoder bcryptPasswordEncoder;
 
@@ -26,18 +33,6 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username + " 사용자가 존재하지 않습니다");
         }
 
-//        // 사용자 입력 비밀번호 (예: 폼 입력을 통해 받은 비밀번호)
-//        String rawPassword = "userInputPassword";  // 사용자 입력 비밀번호를 어떻게 받을지 구현 필요
-//
-//        // 데이터베이스에서 가져온 인코딩된 비밀번호
-//        String encodedPassword = resultVO.getMember_pwd();
-//        System.out.println(String.format("bcryptPasswordEncoder: %s", encodedPassword));
-
-//        // 비밀번호 검증
-//        if (!bcryptPasswordEncoder.matches(rawPassword, encodedPassword)) {
-//            log.info("비밀번호가 일치하지 않습니다");
-//            throw new UsernameNotFoundException("비밀번호가 일치하지 않습니다.");
-//        }
 
         // 로그인 횟수 증가
         userMapper.loginCountInc(resultVO);
@@ -53,5 +48,38 @@ public class UserService implements UserDetailsService {
             return resultVO;
         }
         return null;
+    }
+    public List<MemberVO> getUserList() {
+        return userMapper.getUserList();
+    }
+
+    public MemberVO getUserById(String id) {
+        return userMapper.getUserById(id);
+    }
+
+//    public MemberVO getUserByEmail(String email) {
+//        return userMapper.getUserByEmail(email);
+//    }
+
+    public void insertUser(MemberVO userVo) { // 회원 가입
+        if (!userVo.getUsername().equals("") && !userVo.getMember_id().equals("")) {
+            // password는 암호화해서 DB에 저장
+            userVo.setMember_pwd(passwordEncoder.encode(userVo.getPassword()));
+            userMapper.insertUser(userVo);
+        }
+    }
+
+    public void edit(MemberVO userVo) { // 회원 정보 수정
+        // password는 암호화해서 DB에 저장
+        userVo.setMember_pwd(passwordEncoder.encode(userVo.getPassword()));
+        userMapper.updateUser(userVo);
+    }
+
+    public void withdraw(Long id) { // 회원 탈퇴
+        userMapper.deleteUser(id);
+    }
+
+    public PasswordEncoder passwordEncoder() {
+        return this.passwordEncoder;
     }
 }

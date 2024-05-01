@@ -4,91 +4,53 @@ import com.msa2024.users.AuthFailureHandler;
 import com.msa2024.users.AuthSuccessHandler;
 import com.msa2024.users.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 import java.net.URLEncoder;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    AuthSuccessHandler authSuccessHandler;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private AuthFailureHandler authFailureHandler;
+public class SecurityConfig {
 
-    // BCryptPasswordEncoder 빈 등록
-    // BCryptPasswordEncoder는 Spring Security에서 제공하는 비밀번호 암호화 객체 (BCrypt라는 해시 함수를 이용하여 패스워드를 암호화 한다.)
-    // 회원 비밀번호 등록시 해당 메서드를 이용하여 암호화해야 로그인 처리시 동일한 해시로 비교한다.
-    // 의존성 주입을 위한 함수를 Bean 객체로 리턴할 수 있게 함수를 구현한다
+    private final AuthSuccessHandler authSuccessHandler;
+    private final UserService userService;
+    private final AuthFailureHandler authFailureHandler;
+
+
     @Bean
-    public BCryptPasswordEncoder encryptPassword() {
-        return new BCryptPasswordEncoder();
-    }
-    // 시큐리티가 로그인 과정에서 password를 가로챌때 해당 해쉬로 암호화해서 비교한다.
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // 권한에 따라 허용하는 url 설정
+        // /login, /signup 페이지는 모두 허용, 다른 페이지는 인증된 사용자만 허용
+        http.csrf().disable()
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //아래 부분은 의존성 주입 함수를 호출함
-        auth.userDetailsService(userService).passwordEncoder(encryptPassword());
-    }
-    // SecurityFilterChain 빈 등록
-    //url 설정
+                .authorizeRequests()
+                .antMatchers("/users/admin/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/", "/login", "/signup", "/users/signup", "/users/loginForm", "/users/signupForm", "/resources/**").permitAll()
+                .anyRequest().authenticated();
 
-    public void configure (HttpSecurity http) throws Exception {
-		/*
-		 csrf 토큰 활성화시 사용
-		 쿠키를 생성할 때 HttpOnly 태그를 사용하면 클라이언트 스크립트가 보호된 쿠키에 액세스하는 위험을 줄일 수 있으므로 쿠키의 보안을 강화할 수 있다.
-		*/
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        // login 설정
+        http
+                .formLogin()
+                .loginPage("/users/loginForm")
+                .loginProcessingUrl("/login")    // POST 요청 (login 창에 입력한 데이터를 처리)
+                .usernameParameter("member_id")	// login에 필요한 id 값을 email로 설정 (default는 username)
+                .passwordParameter("member_pwd")	// login에 필요한 password 값을 password(default)로 설정
+                .defaultSuccessUrl("/")	// login에 성공하면 /로 redirect
+                .successHandler(authSuccessHandler)
+                .failureHandler(authFailureHandler);
 
-
-        http//.csrf().disable()	// csrf 토큰을 비활성화
-
-                .authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
-                .antMatchers("/", "/users/loginForm", "/js/**", "/css/**", "/images/**").permitAll() // 해당 경로들은 접근을 허용
-                .anyRequest() // 다른 모든 요청은
-                .authenticated() // 인증된 유저만 접근을 허용
-                .and()
-                .formLogin() // 로그인 폼은
-                .usernameParameter("member_id")
-                .passwordParameter("member_pwd")
-                .loginPage("/users/loginForm") // 해당 주소로 로그인 페이지를 호출한다.
-                .loginProcessingUrl("/users/login") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
-                .defaultSuccessUrl("/")       // 로그인 성공시 이동할 URL, 성공시 요청을 처리할 핸들러에서 설정하지 않으면 해동 설정값으로 동작함
-                .successHandler(authSuccessHandler) // 성공시 요청을 처리할 핸들러
-                .failureHandler(authFailureHandler) // 실패시 요청을 처리할 핸들러
-                .and()
+        // logout 설정
+        http
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/users/logout")) // 로그아웃 URL
-                .logoutSuccessUrl("/users/loginForm") // 성공시 리턴 URL
-                .invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
-                .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
-                .permitAll()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")// logout에 성공하면 /로 redirec
                 .and()
                 .sessionManagement()
-                .maximumSessions(1) // 세션 최대 허용 수 1, -1인 경우 무제한 세션 허용
-                .maxSessionsPreventsLogin(false) // true면 중복 로그인을 막고, false면 이전 로그인의 세션을 해제
-                .expiredUrl("/users/loginForm?error=true&exception=" + URLEncoder.encode("세션이 만료되었습니다. 다시 로그인 해주세요", "UTF-8"))  // 세션이 만료된 경우 이동 할 페이지를 지정
-        ;
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)
+                .expiredUrl("/users/loginForm?error=true&exception=" + URLEncoder.encode("세션이 만료되었습니다. 다시 로그인 해주세요", "UTF-8"));
 
-    }
-
-}
+        return http.build();
+    }}

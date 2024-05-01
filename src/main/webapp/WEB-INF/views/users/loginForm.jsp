@@ -8,10 +8,10 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
-	href='<c:url value="/css/login.css"/>'>
+	href='<c:url value="/resources/css/login.css"/>'>
 
 	<link rel="stylesheet" type="text/css"
-		  href='<c:url value="/js/common.js"/>'>
+		  href='<c:url value="/resources/js/common.js"/>'>
 	<%@ include file="/WEB-INF/views/include/meta.jsp" %>
 	<%@ include file="/WEB-INF/views/include/css.jsp" %>
 <title>회원가입</title>
@@ -20,12 +20,10 @@
 	<div class="wrap">
 
 		<%@ include file="/WEB-INF/views/include/header.jsp" %>
-		<div class="user-detail">
+		<div class="user-detail">x
 			<h2>로그인</h2>
-			<form id="loginForm"  method="post" action="/users/login">
-				<sec:csrfInput/>
-<				<input type="hidden" name="action" value="login"> -
-				<label>아이디: </label> 
+			<form id="loginForm"  method="post" action="/login">
+				<label>아이디: </label>
 					<input type="text" id="member_id" name="member_id" required="required">
 					<br /> 
 					<label>비밀번호 : </label> 
@@ -39,6 +37,7 @@
 			</form>
 		</div>
 	</div>
-	<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+<%--	<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>--%>
+	<script type="text/javascript" src="<c:url value='/resources/js/login.js'/>"></script>
 </body>
 </html>

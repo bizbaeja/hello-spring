@@ -22,28 +22,43 @@ repositories {
     mavenCentral()
 }
 
+//dependencies {
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.4.5'
+//    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
+//
+//    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs
+//    implementation 'org.springframework.security:spring-security-taglibs'
+//
+//    implementation 'javax.servlet:jstl:1.2'
+//    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+//    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+//    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+//
+//    compileOnly 'org.projectlombok:lombok'
+//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//    annotationProcessor 'org.projectlombok:lombok'
+//
+//    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'org.springframework.security:spring-security-test'
+//}
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
-
-    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs
-    implementation 'org.springframework.security:spring-security-taglibs'
-
+    implementation 'org.springframework.boot:spring-boot-starter-web'	// web
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'	// mybatis
+    implementation 'org.springframework.boot:spring-boot-starter-security'	// spring security
+    implementation 'org.springframework.security:spring-security-taglibs:5.5.3'
     implementation 'javax.servlet:jstl:1.2'
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'	// jsp
     implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'javax.servlet:jstl'	// jstl
+    compileOnly 'org.projectlombok:lombok'	// lombok
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'	// mariadb
+    annotationProcessor 'org.projectlombok:lombok'	// lombok
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'	// tomcat
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'	//test code
     testImplementation 'org.springframework.security:spring-security-test'
 }
-
 tasks.named('bootBuildImage') {
     builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
