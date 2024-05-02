@@ -10,7 +10,8 @@
     <link rel="stylesheet" type="text/css" href='<c:url value="/css/board.css"/>'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
-    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+    <%@ include file="/WEB-INF/views/include/meta.jsp" %>
+    <%@ include file="/WEB-INF/views/include/css.jsp" %>
 </head>
 <body>
 <div id="wrap">
@@ -18,7 +19,8 @@
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <div id="content">
         <form action="${pageContext.request.contextPath}/boards/upload" method="post" enctype="multipart/form-data">
-            Title: <input type="text" name="title"><br>
+
+        Title: <input type="text" name="title"><br>
             Content: <textarea name="content" id="editor"></textarea><br>
             <input type="file" name="file"><br>
             <input type="submit" value="Upload">

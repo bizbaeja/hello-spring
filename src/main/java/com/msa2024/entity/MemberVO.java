@@ -23,7 +23,8 @@ public class MemberVO implements UserDetails {
     private String member_pwd;
     private String member_name;
     private String member_address;
-    private String member_phone_number;
+    private String member_detail_address;
+    private String member_hand_phone;
     private String member_gender;
     private String member_roles;
     private String member_account_expired;

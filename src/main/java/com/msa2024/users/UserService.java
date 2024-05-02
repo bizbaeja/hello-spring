@@ -3,6 +3,7 @@ package com.msa2024.users;
 import com.msa2024.entity.MemberVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +19,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-
+    @Scheduled(fixedRate = 600000) // 600,000 milliseconds = 10 minutes
+    public void unlockExpiredAccounts() {
+        log.info("Running scheduled task to unlock expired locked accounts");
+        userMapper.unlockExpiredLockedAccounts();
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("username = {}", username);
@@ -28,6 +33,11 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username + " 사용자가 존재하지 않습니다");
         }
 
+        MemberVO user  = userMapper.findMemberByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username + "해당 유저를 찾을 수 없습니다.:");
+        }
+        return user;
 //        // 사용자 입력 비밀번호 (예: 폼 입력을 통해 받은 비밀번호)
 //        String rawPassword = "userInputPassword";  // 사용자 입력 비밀번호를 어떻게 받을지 구현 필요
 //
@@ -41,10 +51,8 @@ public class UserService implements UserDetailsService {
 //            throw new UsernameNotFoundException("비밀번호가 일치하지 않습니다.");
 //        }
 
-        // 로그인 횟수 증가
-        userMapper.loginCountInc(resultVO);
 
-        return resultVO;
+
     }
     public MemberVO login(MemberVO memberVO) {
         // 데이터베이스에서 사용자 정보를 조회
@@ -57,13 +65,15 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
-    public  void insertUser(MemberVO userVO){
+    public void insertUser(MemberVO userVO) {
         if (!userVO.getUsername().equals("") && !userVO.getMember_id().equals("")) {
-            // password는 암호화해서 DB에 저장
             userVO.setMember_pwd(bcryptPasswordEncoder.encode(userVO.getPassword()));
-            userMapper.signup(userVO);
+            int result = userMapper.signup(userVO);
+            if (result == 0) {
+                throw new RuntimeException("User registration failed");
+            }
         }
-}
+    }
 
 
     public  void edit (MemberVO userVO){

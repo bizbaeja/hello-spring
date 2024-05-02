@@ -32,6 +32,9 @@
         from tb_member
         where member_id = #{member_id}
     </select>
+    <select id="findMemberByUsername" resultType="com.msa2024.entity.MemberVO">
+        SELECT * FROM tb_member WHERE member_id = #{username}
+    </select>
 
     <update id="updateMemberLastLogin">
         update tb_member set
@@ -41,15 +44,15 @@
 
     <update id="loginCountInc">
         update tb_member set
-        member_login_count = member_login_count + 1
-        <choose>
-            <when test="member_login_count > 5">
-                , member_account_locked = 'Y'
-            </when>
-            <otherwise>
-                , member_account_locked = 'N'
-            </otherwise>
-        </choose>
+        member_login_count = member_login_count + 1,
+        member_account_locked = CASE
+        WHEN member_login_count >= 2 THEN 'Y'  <!-- Adjusted to lock after 3 attempts -->
+        ELSE 'N'
+        END,
+        lockout_time = CASE
+        WHEN member_login_count >= 2 THEN NOW()  <!-- Sets lockout time when locking the account -->
+        ELSE lockout_time
+        END
         where member_id = #{member_id}
     </update>
 
@@ -60,32 +63,36 @@
                             ,member_account_locked = 'N'
         where member_id = #{member_id}
     </update>
+    <update id="unlockExpiredLockedAccounts">
+        UPDATE tb_member
+        SET member_account_locked = 'N', lockout_time = NULL, member_login_count = 0
+        WHERE member_account_locked = 'Y' AND TIMESTAMPDIFF(MINUTE, lockout_time, NOW()) >= 10
+    </update>
 
     <insert id="signup" parameterType="com.msa2024.entity.MemberVO">
         INSERT INTO tb_member (
             member_id,
-            member_pwd,
             member_name,
+            member_pwd,
+            member_hand_phone,
             member_address,
             member_detail_address,
-            member_hand_phone,
-            member_birthday,
+            member_gender,
             member_reg_date,
             member_update_date,
-            member_authority,
-            member_locked
+            member_login_count
         ) VALUES (
                      #{member_id},
-                     #{member_pwd},
                      #{member_name},
+                     #{member_pwd},
+                     #{member_hand_phone},
                      #{member_address},
                      #{member_detail_address},
-                     #{member_hand_phone},
-                     #{member_birthday},
+                     #{member_gender},
                      NOW(),
                      NOW(),
-                     #{member_authority},
-                     #{member_locked}
+                     #{member_login_count}
                  )
     </insert>
+
 </mapper>

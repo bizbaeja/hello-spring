@@ -34,5 +34,10 @@
 			<!-- 로그인 링크 표시 -->
 			<a class="nav-link" href="<c:url value='/users/loginForm/'/>" id="login_link">로그인</a>
 		</li>
+		<li class="nav-item">
+			<!-- 로그인 링크 표시 -->
+			<a class="nav-link" href="<c:url value='/users/signupForm/'/>" id="signup_link">회원가입
+			</a>
+		</li>
 	</sec:authorize>
 </ul>
