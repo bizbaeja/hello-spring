@@ -8,6 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>User insert form</title>
+
     <link rel="stylesheet" type="text/css" href='<c:url value="/css/main.css"/>'>
 
     <%@ include file="/WEB-INF/views/include/meta.jsp" %>

@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href='<c:url value="/css/list.css"/>'>
+
     <%@ include file="/WEB-INF/views/include/meta.jsp" %>
     <%@ include file="/WEB-INF/views/include/css.jsp" %>
     <%@ include file="/WEB-INF/views/include/js.jsp" %>

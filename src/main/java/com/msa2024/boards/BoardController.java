@@ -23,6 +23,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 @Controller
@@ -36,7 +39,28 @@ public class BoardController {
     private final BoardService boardService;
     private final CodeService codeService;
     private final ServletContext application;
+    private final Path uploadDirectory = Paths.get("uploads");
+    @PostMapping("/upload")
+    public String handleFileUpload(MultipartFile file, RedirectAttributes redirectAttributes) {
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
+            return "redirect:/boards/insertForm";
+        }
+        try {
+            // Save the file to the server
+            Path targetPath = uploadDirectory.resolve(file.getOriginalFilename());
+            Files.copy(file.getInputStream(), targetPath);
 
+            // Provide URL to CKEditor
+            String fileUrl = "./Users/aeong/Documents/NewAeong/uploads/" + file.getOriginalFilename();
+            redirectAttributes.addFlashAttribute("message", "File uploaded successfully.");
+            redirectAttributes.addFlashAttribute("fileUrl", fileUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "Failed to upload file.");
+        }
+        return "redirect:/boards/insertForm";
+    }
     @RequestMapping("list")
     public String list(@Valid PageRequestVO pageRequestVO, BindingResult bindingResult, Model model) throws ServletException, IOException {
         log.info("목록");

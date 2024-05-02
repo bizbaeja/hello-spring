@@ -34,22 +34,19 @@
             <a class="nav-link" href="<c:url value='/member/list'/>" id="member_link">회원관리</a>
         </li>
         <c:choose>
-            <c:when test="${empty loginVO}">
+            <c:when test="${empty principal}">
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value='/users/loginForm/'/>" id="login_link">로그인</a>
                 </li>
             </c:when>
             <c:otherwise>
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value='/users/logout/'/>" id="login_link">${loginVO.member_name}</a>
-                </li>
-                <li class="nav-item">
-
+                    <a class="nav-link" href="<c:url value='/users/logout/'/>" id="logout_link">${principal.member_name}</a>
                 </li>
             </c:otherwise>
         </c:choose>
     </ul>
-    </div>
+</div>
 </div>
 </body>
 </html>

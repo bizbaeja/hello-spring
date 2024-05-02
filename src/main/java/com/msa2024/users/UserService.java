@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.                                                    BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 @Service
 @Slf4j
@@ -16,6 +17,7 @@ public class UserService implements UserDetailsService {
     private UserMapper userMapper;
     @Autowired
     private BCryptPasswordEncoder bcryptPasswordEncoder;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,9 +51,24 @@ public class UserService implements UserDetailsService {
         MemberVO resultVO = userMapper.login(memberVO);
 
         // BCryptPasswordEncoder를 사용한 비밀번호 검증
-        if (resultVO != null && resultVO.isEqualsPwd()) {
+        if (resultVO != null && resultVO.isEqualsPwd(resultVO.getMember_pwd())) {
             return resultVO;
         }
         return null;
     }
+
+    public  void insertUser(MemberVO userVO){
+        if (!userVO.getUsername().equals("") && !userVO.getMember_id().equals("")) {
+            // password는 암호화해서 DB에 저장
+            userVO.setMember_pwd(bcryptPasswordEncoder.encode(userVO.getPassword()));
+            userMapper.signup(userVO);
+        }
+}
+
+
+    public  void edit (MemberVO userVO){
+        userVO.setMember_pwd(bcryptPasswordEncoder.encode(userVO.getPassword()));
+        userMapper.updateMember(userVO);
+    }
+
 }

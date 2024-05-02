@@ -9,9 +9,9 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
 	href='<c:url value="/css/login.css"/>'>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-	<link rel="stylesheet" type="text/css"
-		  href='<c:url value="/js/common.js"/>'>
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/login.css'/>">
 	<%@ include file="/WEB-INF/views/include/meta.jsp" %>
 	<%@ include file="/WEB-INF/views/include/css.jsp" %>
 <title>회원가입</title>
@@ -24,11 +24,11 @@
 			<h2>로그인</h2>
 			<form id="loginForm"  method="post" action="/users/login">
 				<sec:csrfInput/>
-<				<input type="hidden" name="action" value="login"> -
-				<label>아이디: </label> 
+
+				<label>아이디: </label>
 					<input type="text" id="member_id" name="member_id" required="required">
-					<br /> 
-					<label>비밀번호 : </label> 
+					<br />
+					<label>비밀번호 : </label>
 					<input type="password" id="member_pwd" name="member_pwd" required="required">
 					<br />
 				<!-- <label for="autologin">자동로그인</label> <input type="checkbox" id="autologin" name="autologin" value="Y">     -->

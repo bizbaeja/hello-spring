@@ -29,18 +29,18 @@
     <select id="login" resultType="com.msa2024.entity.MemberVO">
         select
             *
-        from tb_member2
+        from tb_member
         where member_id = #{member_id}
     </select>
 
     <update id="updateMemberLastLogin">
-        update tb_member2 set
+        update tb_member set
             member_last_login_time = now()
         where member_id = #{member_id}
     </update>
 
     <update id="loginCountInc">
-        update tb_member2 set
+        update tb_member set
         member_login_count = member_login_count + 1
         <choose>
             <when test="member_login_count > 5">
@@ -55,11 +55,37 @@
 
 
     <update id="loginCountClear">
-        update tb_member2 set
+        update tb_member set
             member_login_count = 0
                             ,member_account_locked = 'N'
         where member_id = #{member_id}
     </update>
 
-
+    <insert id="signup" parameterType="com.msa2024.entity.MemberVO">
+        INSERT INTO tb_member (
+            member_id,
+            member_pwd,
+            member_name,
+            member_address,
+            member_detail_address,
+            member_hand_phone,
+            member_birthday,
+            member_reg_date,
+            member_update_date,
+            member_authority,
+            member_locked
+        ) VALUES (
+                     #{member_id},
+                     #{member_pwd},
+                     #{member_name},
+                     #{member_address},
+                     #{member_detail_address},
+                     #{member_hand_phone},
+                     #{member_birthday},
+                     NOW(),
+                     NOW(),
+                     #{member_authority},
+                     #{member_locked}
+                 )
+    </insert>
 </mapper>

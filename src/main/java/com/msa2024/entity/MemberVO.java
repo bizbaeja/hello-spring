@@ -8,11 +8,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -31,18 +30,18 @@ public class MemberVO implements UserDetails {
     private String member_account_locked;
     private int    member_login_count;
     private LocalDateTime member_last_login_time;
-
-    public boolean isEqualsPwd(String pwd) {
-        return this.member_pwd.equals(pwd);
-    }
-
+    private LocalDateTime lockoutTime;
+    private List<GrantedAuthority> roles;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collections = new ArrayList<GrantedAuthority>();
+        if (member_roles == null || member_roles.isEmpty()) {
+            return Collections.emptyList();
+        }
 
-        Arrays.stream(member_roles.split(",")).forEach(role -> collections.add(new SimpleGrantedAuthority("ROLE_" + role.trim())));
-
-        return collections;
+        return Arrays.stream(member_roles.split(","))
+                .map(String::trim)
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -53,6 +52,10 @@ public class MemberVO implements UserDetails {
     @Override
     public String getUsername() {
         return member_id;
+    }
+
+    public String getMember_name() {
+        return member_name;
     }
 
     @Override
@@ -75,8 +78,8 @@ public class MemberVO implements UserDetails {
         return true;
     }
 
-    public boolean isEqualsPwd() {
-        return true;
+    public boolean isEqualsPwd(String pwd) {
+        return this.member_pwd.equals(pwd);
     }
 
 }
