@@ -47,11 +47,12 @@
         where bno = #{bno}
     </delete>
 
-    <update id="update" >
+    <update id="update" parameterType="map">
         update tb_board set
-                            btitle   = #{btitle},
+                            btitle = #{btitle},
                             bcontent = #{bcontent}
         where bno = #{bno}
+          and member_id = #{member_id}
     </update>
 
     <delete id="allDelete" >

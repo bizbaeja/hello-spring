@@ -7,11 +7,11 @@ import com.msa2024.entity.BoardVO;
 import com.msa2024.entity.MemberVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.*;
 import java.net.URLEncoder;
@@ -33,34 +32,48 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/boards")
 public class BoardController {
-
+//    @Value("${articleImageFilePath}")
+//    private String articleImageFilePath;
     //xml 또는 어노터이션 처리하면 스프링
     //어노터이션 처리하면 스프링 부트
     private final BoardService boardService;
     private final CodeService codeService;
     private final ServletContext application;
     private final Path uploadDirectory = Paths.get("uploads");
-    @PostMapping("/upload")
-    public String handleFileUpload(MultipartFile file, RedirectAttributes redirectAttributes) {
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
-            return "redirect:/boards/insertForm";
-        }
-        try {
-            // Save the file to the server
-            Path targetPath = uploadDirectory.resolve(file.getOriginalFilename());
-            Files.copy(file.getInputStream(), targetPath);
 
-            // Provide URL to CKEditor
-            String fileUrl = "./Users/aeong/Documents/NewAeong/uploads/" + file.getOriginalFilename();
-            redirectAttributes.addFlashAttribute("message", "File uploaded successfully.");
-            redirectAttributes.addFlashAttribute("fileUrl", fileUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("message", "Failed to upload file.");
+//    @ResponseBody
+//    @RequestMapping("/ckeditorImageUpload")
+//    public String boardImageUpload(@RequestParam("upload") MultipartFile file, String CKEditorFuncNum){
+//        String fileName = file.getOriginalFilename();
+//        String suffixName = fileName.substring(fileName.lastIndexOf("."));
+//        String newFileName = DateUtil.newIsoDateFormat() +".jpg";
+//        FileUtils.forceMkdir(file.getInputStream(), new File(path + newFileName));
+//    }
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("title") String title,
+                                   @RequestParam("content") String content,
+                                   RedirectAttributes redirectAttributes) {
+
+        if (!file.isEmpty()) {
+            try {
+                // Save the file somewhere
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get("path/to/your/uploads/" + file.getOriginalFilename());
+                Files.write(path, bytes);
+
+                redirectAttributes.addFlashAttribute("message", "File uploaded successfully!");
+            } catch (IOException e) {
+                e.printStackTrace();
+                redirectAttributes.addFlashAttribute("message", "File upload failed!");
+            }
         }
-        return "redirect:/boards/insertForm";
+
+        // handle saving title and content in your database here
+
+        return "redirect:/boards/list";
     }
+
     @RequestMapping("list")
     public String list(@Valid PageRequestVO pageRequestVO, BindingResult bindingResult, Model model) throws ServletException, IOException {
         log.info("목록");
@@ -107,6 +120,21 @@ public class BoardController {
 
         return map;
     }
+    @PostMapping("/insert")
+    @ResponseBody
+    public Map<String, Object> insert(BoardVO boardVO) {
+        Map<String, Object> result = new HashMap<>();
+        int updated = boardService.insert(boardVO);
+
+        if(updated != 0){
+            result.put("status",0);
+        }else {
+            result.put("status", -99);
+            result.put("statusMessage", "실패");
+        }
+        return result;
+    }
+
 
     @RequestMapping("delete")
     @ResponseBody
@@ -136,24 +164,7 @@ public class BoardController {
         return "boards/updateForm";
     }
 
-    @RequestMapping("update")
-    @ResponseBody
-    public Map<String, Object>  update(@RequestBody BoardVO board) throws ServletException, IOException {
-        log.info("수정 board => {}", board);
 
-        //1. 처리
-        int updated = boardService.update(board);
-
-        Map<String, Object> map = new HashMap<>();
-        if (updated == 1) { //성공
-            map.put("status", 0);
-        } else {
-            map.put("status", -99);
-            map.put("statusMessage", "게시물 정보 수정 실패하였습니다");
-        }
-
-        return map;
-    }
 
     @RequestMapping("insertForm")
     public Object insertForm(Model model) throws ServletException, IOException {
@@ -173,25 +184,25 @@ public class BoardController {
     // 게시물 등록 작업이 완료되면 token의 상태를 작업 완료(1)로 설정해야한다
     // 만약 마지막 작업이 완료 되지 않은 경우 스토리지 서버에 저장된 파일을
     // 삭제 할 수 있게 구현 해야 한다(현재는 사용하지 않음)
-    @RequestMapping("insert")
-    @ResponseBody
-    public Object insert(BoardVO boardVO, Authentication authentication) throws ServletException, IOException {
-        MemberVO loginVO = (MemberVO)authentication.getPrincipal();
-        log.info("등록 BoardVO = {}\n loginVO = {}", boardVO, loginVO);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", -99);
-        map.put("statusMessage", "게시물 등록에 실패하였습니다");
-
-        //로그인한 사용자를 게시물 작성자로 설정한다
-        boardVO.setMember_id(loginVO.getMember_id());
-        int updated = boardService.insert(boardVO);
-        if (updated == 1) { //성공
-            map.put("status", 0);
-        }
-
-        return map;
-    }
+//    @RequestMapping("insert")
+//    @ResponseBody
+//    public Object insert(BoardVO boardVO, Authentication authentication) throws ServletException, IOException {
+//        MemberVO loginVO = (MemberVO)authentication.getPrincipal();
+//        log.info("등록 BoardVO = {}\n loginVO = {}", boardVO, loginVO);
+//
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("status", -99);
+//        map.put("statusMessage", "게시물 등록에 실패하였습니다");
+//
+//        //로그인한 사용자를 게시물 작성자로 설정한다
+//        boardVO.setMember_id(loginVO.getMember_id());
+//        int updated = boardService.insert(boardVO);
+//        if (updated == 1) { //성공
+//            map.put("status", 0);
+//        }
+//
+//        return map;
+//    }
 
     @PostMapping("boardImageUpload")
     @ResponseBody

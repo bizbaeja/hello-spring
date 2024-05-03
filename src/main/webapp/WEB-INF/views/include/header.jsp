@@ -39,5 +39,9 @@
 			<a class="nav-link" href="<c:url value='/users/signupForm/'/>" id="signup_link">회원가입
 			</a>
 		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="<c:url value='/users/logout/'/>" id="logout_link">로그아웃</a>
+		</li>
+
 	</sec:authorize>
 </ul>

@@ -1,26 +1,28 @@
 @charset "UTF-8";
 
 /* 기본 스타일 설정 */
+.header-nav {
+    position: fixed; /* 상단에 고정 */
+    top: 0; /* 페이지의 최상단에 위치 */
+    left: 50%; /* 좌우 중앙 정렬 */
+    transform: translateX(-50%); /* 정확한 중앙 */
+    width: auto; /* 너비 자동 조정 */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 내용 중앙 정렬 */
+    background-color: #0288d1;
+    padding: 10px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 추가적인 CSS 수정 */
 body {
     margin: 0;
     padding: 0;
     background-color: #b3e5fc;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #333;
-    padding-top: 70px; /* 헤더 높이만큼 여백 추가 */
-}
-
-/* 헤더 내비게이션 스타일 */
-.header-nav {
-    position: fixed; /* 상단에 고정 */
-    top: 0; /* 페이지의 최상단에 위치 */
-    width: 100%; /* 전체 너비 */
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    background-color: #0288d1;
-    padding: 10px;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    padding-top: 70px;
 }
 
 .header-nav h1 {
@@ -108,6 +110,7 @@ body {
 
 .ck-editor__editable {
     height: 80vh;
+    color: #000;
 }
 /* 미디어 쿼리 */
 @media (max-width: 768px) {

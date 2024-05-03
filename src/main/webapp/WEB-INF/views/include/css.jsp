@@ -6,3 +6,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" ></script>
 
 <link href="<c:url value='/css/main.css'/>" rel="stylesheet" />
+<link href="<c:url value='/css/board.css'/>" rel="stylesheet" />
