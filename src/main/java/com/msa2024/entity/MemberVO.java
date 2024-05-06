@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,10 +51,6 @@ public class MemberVO implements UserDetails {
     @Override
     public String getUsername() {
         return member_id;
-    }
-
-    public String getMember_name() {
-        return member_name;
     }
 
     @Override
