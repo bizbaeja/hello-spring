@@ -83,6 +83,10 @@ public class BoardService {
         List<BoardFileVO> files = boardFileMapper.getFilesByBoardId(boardId);
         resultVO.setBoardFiles(files);
 
+        // 로그 기록
+        log.info("게시글과 연관된 파일 정보를 조회하였습니다. 파일 개수: {}", files.size());
+
+
         // 로그 정보 기록
         log.info("Viewed Board ID: {}, View Count: {}", boardId, resultVO.getView_count());
 
@@ -93,10 +97,11 @@ public class BoardService {
     @Transactional
     public int insert(BoardVO boardVO) {
         int result = boardMapper.insert(boardVO); // 게시글 정보 저장
-        if (boardVO.getBoard_file_vo() != null) {
-            BoardFileVO fileVO = boardVO.getBoard_file_vo();
-            fileVO.setBoardId(boardVO.getBoard_id()); // BoardFileVO에 BoardVO의 ID 설정
-            int fileResult = boardFileMapper.insert(fileVO); // 파일 정보 저장
+        if (boardVO.getBoardFiles() != null && !boardVO.getBoardFiles().isEmpty()) {
+            for (BoardFileVO fileVO : boardVO.getBoardFiles()) {
+                fileVO.setBoardId(boardVO.getBoard_id()); // BoardFileVO에 BoardVO의 ID 설정
+                int fileResult = boardFileMapper.insert(fileVO); // 파일 정보 저장
+            }
         }
         return result; // 게시글 저장 결과 반환
     }

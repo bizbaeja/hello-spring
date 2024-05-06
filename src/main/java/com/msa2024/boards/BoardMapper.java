@@ -19,5 +19,5 @@ public interface BoardMapper {
 	void allDelete();
 	int insert(BoardVO boardVO);
 
-	List<BoardVO> getPostsByUserId(int userId);
+	List<BoardVO> getPostsByUserId(String userId);
 }

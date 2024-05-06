@@ -53,9 +53,9 @@
             <td onclick="jsView('${board.board_id}')" style="cursor:pointer;">${board.board_id}</td>
             <td>
                 <a href="/boards/${board.board_id}">${board.title}</a>
-                <c:if test="${board.isNew}">
-                    <img src="/path/to/new_icon.png" alt="New" style="width: 30px; height: 30px;"/>
-                </c:if>
+<%--                <c:if test="${board.isNew}">--%>
+<%--                    <img src="/path/to/new_icon.png" alt="New" style="width: 30px; height: 30px;"/>--%>
+<%--                </c:if>--%>
             </td>
             <td>${board.member_id}</td>
             <td>${board.created_at}</td>

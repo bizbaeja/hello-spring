@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <title>Board Detail</title>
 </head>
-<body onload="updateViewCount(${board.board_id})">
+<body>
 <h1>Board Details</h1>
 <div>
     <h2>Title: ${board.title}</h2>
@@ -25,28 +25,13 @@
         <c:forEach items="${board.boardFiles}" var="file">
             <li>
                     ${file.originalFilename} (Size: ${file.size} bytes)
-
                         <!-- Display the image -->
                         <img src="/images/${file.realFilename}" alt="${file.originalFilename}" style="width: 100px; height: auto;">
-
-
             </li>
         </c:forEach>
     </ul>
 </c:if>
 
 <a href="${pageContext.request.contextPath}/boards/list">Back to List</a>
-<script>
-    function updateViewCount(boardId) {
-        fetch(`/boards/${boardId}/viewcount`, { method: 'GET' })
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.viewCount) {
-                    document.getElementById('viewCount').textContent = data.viewCount;
-                }
-            })
-            .catch(error => console.error('Error fetching view count:', error));
-    }
-</script>
 </body>
 </html>

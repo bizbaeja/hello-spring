@@ -23,7 +23,6 @@ public class BoardVO {
     private List<BoardFileVO> boardFiles;  // List to store associated files
     private int board_file_id; // 파일 ID 추가
     private BoardFileVO board_file_vo;
-    private boolean isNew;
     // 여기서 toString, equals, hashCode, constructor 등이 Lombok에 의해 자동으로 생성됩니다.
     public void setBoardFileVO(BoardFileVO boardFileVO) {
         this.board_file_vo = boardFileVO;
