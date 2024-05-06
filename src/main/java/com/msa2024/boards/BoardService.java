@@ -36,6 +36,7 @@ public class BoardService {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("/yyyy/MM/dd");
 
     public PageResponseVO<BoardVO> getList(PageRequestVO pageRequestVO) {
+        log.debug("Fetching list with page: {}, size: {}", pageRequestVO.getPageNo(), pageRequestVO.getSize());
         List<BoardVO> list = boardMapper.getList(pageRequestVO);
         int total = boardMapper.getTotalCount(pageRequestVO);
         log.info("List: {}", list);
@@ -43,6 +44,7 @@ public class BoardService {
 
         return new PageResponseVO<>(list, total, pageRequestVO.getPageNo(), pageRequestVO.getSize());
     }
+
 
     public String saveCkFileInLocal(MultipartFile upload) throws IOException {
         if (upload.isEmpty()) {
