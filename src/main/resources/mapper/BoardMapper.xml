@@ -1,78 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.msa2024.boards.BoardMapper">
 
+    <!-- Common search condition SQL -->
     <sql id="search">
         <where>
             <if test="searchKey != null and searchKey != ''">
-                btitle like concat('%', #{searchKey}, '%')
+                title LIKE CONCAT('%', #{searchKey}, '%')
             </if>
         </where>
     </sql>
 
-
+    <!-- Retrieve list of posts -->
     <select id="getList" resultType="com.msa2024.entity.BoardVO">
-        select
-        b.*, m.member_name bwriter
-        from tb_board b inner join tb_member m on b.member_id = m.member_id
+        SELECT b.board_id AS board_id,
+        b.member_id AS userId,
+        b.btitle AS title,
+        b.bcontent AS content,
+        b.created_at AS created_at,
+        b.viewcount AS viewCount
+        FROM tb_board AS b
+        JOIN tb_member AS m ON b.member_id = m.member_id
         <include refid="search"/>
-        order by bno desc limit #{skip}, #{size}
+        ORDER BY b.board_id DESC
+        LIMIT #{skip}, #{size}
     </select>
 
+    <!-- Retrieve total number of posts -->
     <select id="getTotalCount" resultType="int">
-        select
-        count(*)
-        from tb_board
+        SELECT COUNT(*)
+        FROM tb_board
         <include refid="search"/>
     </select>
 
+    <!-- Retrieve details of a single post -->
     <select id="view" resultType="com.msa2024.entity.BoardVO">
-        select
-            b.*, m.member_name bwriter
-        from tb_board b inner join tb_member m on b.member_id = m.member_id
-        where bno = #{bno}
+        SELECT b.board_id AS board_id,
+               b.member_id AS member_id,
+               b.btitle AS title,
+               b.bcontent AS content,
+               b.created_at AS created_At,
+               b.viewcount AS viewCount,
+               b.board_pwd as board_pwd
+        FROM tb_board AS b
+                 JOIN tb_member AS m ON b.member_id = m.member_id
+        WHERE b.board_id = #{board_id}
     </select>
 
-    <update id="incViewCount" >
+    <!-- Increment view count -->
+    <update id="incViewCount">
         UPDATE tb_board
-        SET bViewCount = bViewCount + 1
-        WHERE bno = #{bno}
+        SET viewcount = viewcount + 1
+        WHERE board_id = #{board_id}
     </update>
 
-    <delete id="delete" >
-        delete
-        from tb_board
-        where bno = #{bno}
+    <!-- Delete a post -->
+    <delete id="delete">
+        DELETE FROM tb_board
+        WHERE board_id = #{board_id}
     </delete>
 
-    <update id="update" parameterType="map">
-        update tb_board set
-                            btitle = #{btitle},
-                            bcontent = #{bcontent}
-        where bno = #{bno}
-          and member_id = #{member_id}
+    <!-- Update a post -->
+    <update id="update" parameterType="com.msa2024.entity.BoardVO">
+        UPDATE tb_board SET
+                            btitle = #{title},
+                            bcontent = #{content},
+                            board_pwd = #{pwd}
+        WHERE board_id = #{board_id}
+          AND member_id = #{member_id}
     </update>
 
-    <delete id="allDelete" >
-        delete
-        from tb_board
+    <!-- Delete all posts -->
+    <delete id="allDelete">
+        DELETE FROM tb_board
     </delete>
 
-    <insert id="insert" >
-        <selectKey order="AFTER" keyProperty="bno" resultType="String">
-            select LAST_INSERT_ID()
+    <!-- Insert a post -->
+    <insert id="insert" parameterType="com.msa2024.entity.BoardVO">
+        <selectKey keyProperty="board_id" resultType="int" order="BEFORE">
+            SELECT IFNULL(MAX(board_id), 0) + 1 FROM tb_board
         </selectKey>
-        insert into tb_board (
-        btitle,
-        bcontent,
-        member_id
-        ) values (
-        #{btitle},
-        #{bcontent},
-        #{member_id}
-        )
+        INSERT INTO tb_board (board_id, member_id, btitle, bcontent, board_pwd, created_at)
+        VALUES (#{board_id}, #{member_id}, #{title}, #{content}, #{pwd}, #{created_at})
     </insert>
+
 
 </mapper>
