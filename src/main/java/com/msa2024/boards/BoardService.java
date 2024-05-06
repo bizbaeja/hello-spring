@@ -59,27 +59,32 @@ public class BoardService {
         return 0;
     }
 
+    @Transactional
     public Optional<BoardVO> view(int boardId) {
-        // First, increase the view count and check if the increment was successful.
-        if (boardMapper.incViewCount(boardId) == 0) {
-            // If not successful, return empty implying the board does not exist.
+        // 조회수 증가 시도
+        int updateCount = boardMapper.incViewCount(boardId);
+
+        // 조회수 증가 실패시 Optional.empty() 반환
+        if (updateCount == 0) {
+            log.info("Failed to increment view count: Board ID does not exist");
             return Optional.empty();
         }
 
-        // Retrieve the board details.
+        // 조회수 증가 성공, 게시글 상세 정보 조회
         BoardVO resultVO = boardMapper.view(boardId);
         if (resultVO == null) {
+            log.info("No board found with ID: {}", boardId);
             return Optional.empty();
         }
 
-        log.info("View Count: {}", resultVO.getView_count());
-        log.info("Board: {}", resultVO);
-
-        // Retrieve and attach the file details to the BoardVO.
+        // 게시글과 연관된 파일 정보 조회
         List<BoardFileVO> files = boardFileMapper.getFilesByBoardId(boardId);
-        resultVO.setBoardFiles(files);  // Assuming BoardVO has a List<BoardFileVO> field for files.
+        resultVO.setBoardFiles(files);
 
-        // Return the board wrapped in Optional.
+        // 로그 정보 기록
+        log.info("Viewed Board ID: {}, View Count: {}", boardId, resultVO.getView_count());
+
+        // 게시글 정보와 조회수 업데이트 성공적 반환
         return Optional.of(resultVO);
     }
 

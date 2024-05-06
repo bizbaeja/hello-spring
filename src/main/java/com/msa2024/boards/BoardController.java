@@ -64,6 +64,7 @@ public class BoardController {
         return "redirect:/boards/list";
     }
 
+
     @PostMapping("/update/{board_id}")
     public String update(@PathVariable("board_id") int board_id, BoardVO boardVO, RedirectAttributes redirectAttributes) {
         boardVO.setBoard_id(board_id);  // Assuming setBno is now setBoardId

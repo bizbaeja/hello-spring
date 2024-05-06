@@ -14,11 +14,11 @@
     <!-- Retrieve list of posts -->
     <select id="getList" resultType="com.msa2024.entity.BoardVO">
         SELECT b.board_id AS board_id,
-        b.member_id AS userId,
+        b.member_id AS member_id,
         b.btitle AS title,
         b.bcontent AS content,
         b.created_at AS created_at,
-        b.viewcount AS viewCount
+        b.viewcount AS view_count
         FROM tb_board AS b
         JOIN tb_member AS m ON b.member_id = m.member_id
         <include refid="search"/>
@@ -39,8 +39,8 @@
                b.member_id AS member_id,
                b.btitle AS title,
                b.bcontent AS content,
-               b.created_at AS created_At,
-               b.viewcount AS viewCount,
+               b.created_at AS created_at,
+               b.viewcount AS view_count,
                b.board_pwd as board_pwd
         FROM tb_board AS b
                  JOIN tb_member AS m ON b.member_id = m.member_id
