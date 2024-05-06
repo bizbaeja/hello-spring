@@ -2,8 +2,8 @@ package mapper;
 
 import com.msa2024.boards.BoardMapper;
 import com.msa2024.entity.BoardVO;
-import com.msa2024.boards.PageRequestVO;
-import com.msa2024.boards.PageResponseVO;
+import com.msa2024.entity.PageRequestVO;
+import com.msa2024.entity.PageResponseVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,9 @@ public class BoardMapperTests {
     public void testCreateSampleData() {
     	for (int i=0;i<200;i++) {
 	    	BoardVO boardVO = BoardVO.builder()
-	    			.btitle("게시물 제목 " + i)
-	    			.bcontent("게시물 내용 " + i)
+	    			.board_id(i)
+	    			.title("게시물 내용 " + i)
+                    .content("rp")
 	    			.build();
 	    	
 	    	if (i % 2 == 0) {

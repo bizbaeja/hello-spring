@@ -58,19 +58,58 @@ const myFetch = (url, formId, handler) => {
 }
 
 //첨부파일 업로드용 fetch()함수
-const myFileFetch  = (url, formId, handler) => {
+// const myFileFetch  = (url, formId, handler) => {
+// 	const param = new FormData(document.querySelector("#" + formId));
+// 	const csrfToken = document.querySelector("meta[name='_csrf']").content;
+// 	const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+// 	fetch(url + "?_csrf=" + csrfToken, {
+// 		method:"POST",
+// 		body : param,
+// 	}).then(res => res.json()).then(json => {
+// 		//서버로 부터 받은 결과를 사용해서 처리 루틴 구현
+// 		console.log("json ", json );
+// 		if (handler) handler(json);
+// 	});
+// }
+
+function handleServerResponse(json) {
+	if (json.status === "success") {
+		alert(json.message); // 성공 메시지를 사용자에게 보여줌
+		window.location.href = json.redirectUrl; // 서버에서 지정한 URL로 리디렉션
+	} else {
+		alert(json.message); // 실패 메시지를 사용자에게 보여줌
+	}
+}
+
+const myFileFetch = (url, formId) => {
 	const param = new FormData(document.querySelector("#" + formId));
 	const csrfToken = document.querySelector("meta[name='_csrf']").content;
 	const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
-	fetch(url + "?_csrf=" + csrfToken, {
-		method:"POST",
-		body : param,
-	}).then(res => res.json()).then(json => {
-		//서버로 부터 받은 결과를 사용해서 처리 루틴 구현
-		console.log("json ", json );
-		if (handler) handler(json);
-	});
-}
+
+	// CSRF 토큰을 헤더에 추가
+	const headers = new Headers();
+	headers.append(csrfHeader, csrfToken);
+	headers.append("Accept", "application/json"); // JSON 응답 요구
+
+	fetch(url, {
+		method: "POST",
+		body: param,
+		headers: headers,
+	})
+		.then(res => {
+			if (!res.ok) {
+				throw new Error(`HTTP error! status: ${res.status}`);
+			}
+			return res.json();
+		})
+		.then(json => {
+			console.log("json ", json);
+			handleServerResponse(json); // 핸들러 함수 호출
+		})
+		.catch(error => {
+			console.error('Fetch error: ', error);
+		});
+};
 
 
 const menuActive = link_id => {

@@ -18,4 +18,6 @@ public interface UserMapper {
     void updateMember(MemberVO userVO);
 
     void unlockExpiredLockedAccounts();
+
+    int checkDuplicateMemberId(MemberVO memberVO);
 }

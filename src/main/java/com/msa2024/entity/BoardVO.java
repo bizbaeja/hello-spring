@@ -4,26 +4,29 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class BoardVO {
-    private String bno;
-    private String btitle;
-    private String bcontent;
-    private String member_id;
-    private String bdate;
-    private String bViewCount;
-    private String bwriter;
-    //게시물 토큰 변수 선언
-    private String board_token;
-
-    //업로드 파일
-    private MultipartFile file;
-
-    //첨부파일
-    private BoardFileVO boardFileVO;
+    private int board_id;          // 게시판 ID
+    private String member_id;        // 사용자 ID
+    private String title;         // 게시물 제목
+    private String content;       // 게시물 내용
+    private LocalDateTime created_at;  // 게시물 생성 시간
+    private int view_count;        // 조회수
+    private String pwd;           // 비밀번호
+    private List<BoardFileVO> boardFiles;  // List to store associated files
+    private int board_file_id; // 파일 ID 추가
+    private BoardFileVO board_file_vo;
+    private boolean isNew;
+    // 여기서 toString, equals, hashCode, constructor 등이 Lombok에 의해 자동으로 생성됩니다.
+    public void setBoardFileVO(BoardFileVO boardFileVO) {
+        this.board_file_vo = boardFileVO;
+        this.board_file_id = boardFileVO.getBoardFileId(); // 파일 ID 설정
+    }
 }

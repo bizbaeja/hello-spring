@@ -71,7 +71,7 @@
 	</div>
 
 
-	<script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 	<script>
 function jsDelete() {
 	if (confirm("정말로 삭제하시겠습니까?")) {

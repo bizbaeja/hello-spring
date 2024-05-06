@@ -69,12 +69,15 @@
         WHERE member_account_locked = 'Y' AND TIMESTAMPDIFF(MINUTE, lockout_time, NOW()) >= 10
     </update>
 
+    <select id="checkDuplicateMemberId" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM tb_member WHERE member_id = #{member_id}
+    </select>
     <insert id="signup" parameterType="com.msa2024.entity.MemberVO">
         INSERT INTO tb_member (
             member_id,
             member_name,
             member_pwd,
-            member_hand_phone,
+            member_phone_number,
             member_address,
             member_detail_address,
             member_gender,
@@ -85,7 +88,7 @@
                      #{member_id},
                      #{member_name},
                      #{member_pwd},
-                     #{member_hand_phone},
+                     #{member_phone_number},
                      #{member_address},
                      #{member_detail_address},
                      #{member_gender},

@@ -13,6 +13,6 @@ public class BoardTokenVO {
 
     private String board_token;
     private int   status;
-    private String make_date;
+    private String created_at;
 
 }

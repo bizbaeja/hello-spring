@@ -28,6 +28,7 @@
                 <div>
                     <label for="member_id">아이디:</label>
                     <input type="text" id="member_id" name="member_id" required>
+                    <button type="button" id="checkButton">중복 확인</button>
                 </div>
                 <div>
                     <label for="member_name">이름:</label>
@@ -42,8 +43,8 @@
                     <input type="password" id="passwordConfirm" required>
                 </div>
                 <div>
-                    <label for="member_hand_phone">전화번호:</label>
-                    <input type="text" id="member_hand_phone" name="member_hand_phone" required>
+                    <label for="member_phone_number">전화번호:</label>
+                    <input type="text" id="member_phone_number" name="member_phone_number" required>
                 </div>
                 <div>
                     <label for="member_address">주소:</label>
@@ -72,7 +73,32 @@
         const signupForm = document.getElementById("signupForm");
         const password = document.getElementById("member_pwd");
         const passwordConfirm = document.getElementById("passwordConfirm");
+        document.getElementById('checkButton').addEventListener('click', checkMemberId);
 
+        function checkMemberId() {
+            var memberId = document.getElementById('member_id').value;
+            if (!memberId) {
+                alert('아이디를 입력해주세요.');
+                return;
+                return
+            }
+            fetch('/checkMemberId?memberId=' + encodeURIComponent(memberId))
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok.');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'exists') {
+                        alert('이미 사용중인 아이디입니다.');
+                    } else {
+                        alert('사용 가능한 아이디입니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('아이디 중복 확인 중 오류가 발생했습니다.');
+                });
+        }
         signupForm.addEventListener("submit", function(e) {
             e.preventDefault();
 

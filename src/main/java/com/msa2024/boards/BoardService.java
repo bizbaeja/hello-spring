@@ -145,5 +145,9 @@ public class BoardService {
     public BoardFileVO getBoardFile(int boardFileId) {
         return boardFileMapper.getBoardFile(boardFileId);
     }
+
+    public List<BoardVO> getPostsByUserId(String memberId) {
+        return boardMapper.getPostsByUserId(memberId);
+    }
     // Additional methods implementation like getBoardToken, boardImageFileUpload etc.
 }

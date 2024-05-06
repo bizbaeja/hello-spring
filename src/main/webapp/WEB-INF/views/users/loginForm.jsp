@@ -17,7 +17,7 @@
 <title>회원가입</title>
 </head>
 <body>
-	<div class="wrap">
+	<div class="wrap">	₩₩
 
 		<%@ include file="/WEB-INF/views/include/header.jsp" %>
 		<div class="user-detail">

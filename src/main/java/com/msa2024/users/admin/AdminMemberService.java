@@ -47,7 +47,6 @@ public class AdminMemberService  {
 		user.setMember_login_count(user.getMember_login_count() + 1);
 		if (user.getMember_login_count() >= 3) {
 			user.setMember_account_locked("Y");
-			// Set a timestamp to unlock the account after 10 minutes
 			user.setLockoutTime(LocalDateTime.now().plusMinutes(10));
 		}
 		memberMapper.updateLoginAttempts(user);

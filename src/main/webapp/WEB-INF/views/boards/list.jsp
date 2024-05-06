@@ -48,15 +48,21 @@
         <th>작성자</th>
         <th>작성일</th>
     </tr>
-    <c:forEach var="boards" items="${pageResponseVO.list}">
+    <c:forEach var="board" items="${boardList.list}">
         <tr>
-            <td onclick="jsView('${boards.bno}')"  style="cursor:pointer;">${boards.bno}</td>
-            <td><a href="/boards/view?bno=${boards.bno}">${boards.btitle}</a></td>
-            <td>${boards.bwriter}</td>
-            <td>${boards.bno}</td>
+            <td onclick="jsView('${board.board_id}')" style="cursor:pointer;">${board.board_id}</td>
+            <td>
+                <a href="/boards/${board.board_id}">${board.title}</a>
+                <c:if test="${board.isNew}">
+                    <img src="/path/to/new_icon.png" alt="New" style="width: 30px; height: 30px;"/>
+                </c:if>
+            </td>
+            <td>${board.member_id}</td>
+            <td>${board.created_at}</td>
         </tr>
     </c:forEach>
 </table>
+
 
 <!--  페이지 네비게이션 바 출력  -->
 <div class="float-end">

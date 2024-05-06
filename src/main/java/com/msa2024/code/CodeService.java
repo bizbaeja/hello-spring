@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class CodeService {
-	private static final long serialVersionUID = 1L;
+
       @Autowired(required = true)
 	private  CodeMapper  codeMapper;
 
