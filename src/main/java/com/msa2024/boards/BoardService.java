@@ -152,7 +152,15 @@ public class BoardService {
     }
 
     public List<BoardVO> getPostsByUserId(String memberId) {
-        return boardMapper.getPostsByUserId(memberId);
+        try {
+            int userId = Integer.parseInt(memberId); // String을 Integer로 변환합니다.
+            return boardMapper.getPostsByUserId(String.valueOf(userId));
+        } catch (NumberFormatException e) {
+            // memberId가 정수로 변환할 수 없는 경우에 대한 예외 처리를 추가할 수 있습니다.
+            e.printStackTrace();
+            return null;
+        }
     }
+
     // Additional methods implementation like getBoardToken, boardImageFileUpload etc.
 }

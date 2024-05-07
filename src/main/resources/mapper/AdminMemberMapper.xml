@@ -8,7 +8,7 @@
     <select id="findByUsername" parameterType="String" resultType="com.msa2024.entity.MemberVO">
         SELECT *
         FROM tb_member
-        WHERE member_id = #{username}
+        WHERE member_id = #{member_id}
     </select>
 
     <!-- updateLoginAttempts -->
@@ -36,7 +36,7 @@
     <select id="findById" parameterType="String" resultType="com.msa2024.entity.MemberVO">
         SELECT *
         FROM tb_member
-        WHERE member_id = #{memberId}
+        WHERE member_id = #{member_id}
     </select>
 
     <!-- updateMemberLockStatus -->
@@ -49,7 +49,7 @@
     <!-- deleteMemberById -->
     <delete id="deleteMemberById" parameterType="String">
         DELETE FROM tb_member
-        WHERE member_id = #{memberId}
+        WHERE member_id = #{member_id}
     </delete>
 
 </mapper>

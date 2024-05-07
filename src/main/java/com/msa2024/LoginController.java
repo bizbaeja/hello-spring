@@ -58,14 +58,13 @@ public class LoginController {
 		MemberVO user = (MemberVO) userService.loadUserByUsername(currentUsername);
 		if (user != null) {
 			// 사용자의 게시글을 조회합니다.
-			List<BoardVO> posts = boardService.getPostsByUserId(user.getMember_id());
+			List<BoardVO> posts = boardService.getPostsByUserId(user.getMember_id()); // 이 부분에서 오류가 발생할 가능성이 있습니다.
 			model.addAttribute("user", user);
 			model.addAttribute("posts", posts);
 		}
 
 		return "users/profile"; // profile.jsp 뷰를 반환합니다.
 	}
-
 
 
 	@GetMapping("/users")

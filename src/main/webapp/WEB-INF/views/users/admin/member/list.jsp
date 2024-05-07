@@ -40,7 +40,7 @@
                 <td>${member.member_id}</td>
                 <td>${member.member_name}</td>
                 <td>${member.member_gender}</td>
-                <td>${member.member_hand_phone}</td>
+                <td>${member.member_phone_number}</td>
                 <td>${member.member_roles}</td>
                 <td>${member.member_account_locked}</td>
                 <td style="display: flex">
