@@ -29,7 +29,7 @@ ENGINE=InnoDB
 		where board_token = #{board_token}	
 	</update>
 	
-	<select id="listToken" resultType="com.msa2024.entity.BoardTokenVO">
+	<select id="listToken" resultType="BoardTokenVO">
 		<!--  현재 시간 기준으로 30분전에 추가되고 사용중이 아닌 것을 얻는다 -->
 		<![CDATA[
 			SELECT  

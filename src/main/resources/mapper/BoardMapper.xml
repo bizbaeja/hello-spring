@@ -12,7 +12,7 @@
     </sql>
 
     <!-- Retrieve list of posts -->
-    <select id="getList" resultType="com.msa2024.entity.BoardVO">
+    <select id="getList" resultType="BoardVO">
         SELECT b.board_id AS board_id,
         b.member_id AS member_id,
         b.btitle AS title,
@@ -34,7 +34,7 @@
     </select>
 
     <!-- Retrieve details of a single post -->
-    <select id="view" resultType="com.msa2024.entity.BoardVO">
+    <select id="view" resultType="BoardVO">
         SELECT b.board_id AS board_id,
                b.member_id AS member_id,
                b.btitle AS title,
@@ -46,7 +46,7 @@
                  JOIN tb_member AS m ON b.member_id = m.member_id
         WHERE b.board_id = #{board_id}
     </select>
-    <select id="getPostsByUserId" resultType="com.msa2024.entity.BoardVO" parameterType="int">
+    <select id="getPostsByUserId" resultType="BoardVO" parameterType="int">
         SELECT b.board_id AS board_id,
                b.member_id AS member_id,
                b.btitle AS title,
@@ -74,7 +74,7 @@
     </delete>
 
     <!-- Update a post -->
-    <update id="update" parameterType="com.msa2024.entity.BoardVO">
+    <update id="update" parameterType="BoardVO">
         UPDATE tb_board SET
                             btitle = #{title},
                             bcontent = #{content},
@@ -89,7 +89,7 @@
     </delete>
 
     <!-- Insert a post -->
-    <insert id="insert" parameterType="com.msa2024.entity.BoardVO">
+    <insert id="insert" parameterType="BoardVO">
         <selectKey keyProperty="board_id" resultType="int" order="BEFORE">
             SELECT IFNULL(MAX(board_id), 0) + 1 FROM tb_board
         </selectKey>

@@ -4,7 +4,7 @@
 	<!-- 테이블 생성 스크립트 생략 -->
 
 	<!-- Retrieve all files for a specific board by board_id -->
-	<select id="getFilesByBoardId" parameterType="int" resultType="com.msa2024.entity.BoardFileVO">
+	<select id="getFilesByBoardId" parameterType="int" resultType="BoardFileVO">
 		SELECT board_file_id as boardFileId,
 			   board_id as boardId,
 			   original_filename as originalFilename,
@@ -18,14 +18,14 @@
 	</select>
 
 	<!-- 특정 게시물 파일 정보 조회 -->
-	<select id="getBoardFile" parameterType="int" resultType="com.msa2024.entity.BoardFileVO">
+	<select id="getBoardFile" parameterType="int" resultType="BoardFileVO">
 		SELECT board_file_id, board_id, original_filename, real_filename, content_type, size, make_date
 		FROM tb_board_file
 		WHERE board_file_id = #{boardFileId}
 	</select>
 
 	<!-- Retrieve the first file information for a given board_id -->
-	<select id="getFirstBoardFile" parameterType="int" resultType="com.msa2024.entity.BoardFileVO">
+	<select id="getFirstBoardFile" parameterType="int" resultType="BoardFileVO">
 		SELECT board_file_id, board_id, original_filename, real_filename, content_type, size, make_date
 		FROM tb_board_file
 		WHERE board_id = #{boardId}
@@ -33,12 +33,12 @@
 	</select>
 
 	<!-- 모든 게시물 파일을 bno 기준으로 검색 -->
-	<select id="getList" resultType="com.msa2024.entity.BoardFileVO">
+	<select id="getList" resultType="BoardFileVO">
 		SELECT * FROM tb_board_file WHERE board_id = #{boardId} ORDER BY board_file_id
 	</select>
 
 	<!-- bno 기반 첫 번째 파일 정보 조회 -->
-	<select id="getBoardFileVO" resultType="com.msa2024.entity.BoardFileVO">
+	<select id="getBoardFileVO" resultType="BoardFileVO">
 		SELECT * FROM tb_board_file WHERE board_id = #{boardId} LIMIT 1
 	</select>
 
@@ -48,7 +48,7 @@
 	</delete>
 
 	<!-- 게시물 파일 추가 -->
-	<insert id="insert" parameterType="com.msa2024.entity.BoardFileVO">
+	<insert id="insert" parameterType="BoardFileVO">
 		INSERT INTO tb_board_file (board_file_id, board_id, original_filename, real_filename, content_type, size, make_date)
 		VALUES (#{boardFileId}, #{boardId}, #{originalFilename}, #{realFilename}, #{contentType}, #{size}, #{makeDate})
 	</insert>

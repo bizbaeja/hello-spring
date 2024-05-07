@@ -26,13 +26,13 @@
      -->
 
 
-    <select id="login" resultType="com.msa2024.entity.MemberVO">
+    <select id="login" resultType="MemberVO">
         select
             *
         from tb_member
         where member_id = #{member_id}
     </select>
-    <select id="findMemberByUsername" resultType="com.msa2024.entity.MemberVO">
+    <select id="findMemberByUsername" resultType="MemberVO">
         SELECT * FROM tb_member WHERE member_id = #{username}
     </select>
 
@@ -72,7 +72,7 @@
     <select id="checkDuplicateMemberId" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM tb_member WHERE member_id = #{member_id}
     </select>
-    <insert id="signup" parameterType="com.msa2024.entity.MemberVO">
+    <insert id="signup" parameterType="MemberVO">
         INSERT INTO tb_member (
             member_id,
             member_name,

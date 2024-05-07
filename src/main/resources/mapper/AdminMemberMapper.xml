@@ -5,14 +5,14 @@
 <mapper namespace="com.msa2024.users.admin.AdminMemberMapper">
 
     <!-- findByUsername -->
-    <select id="findByUsername" parameterType="String" resultType="com.msa2024.entity.MemberVO">
+    <select id="findByUsername" parameterType="String" resultType="MemberVO">
         SELECT *
         FROM tb_member
         WHERE member_id = #{member_id}
     </select>
 
     <!-- updateLoginAttempts -->
-    <update id="updateLoginAttempts" parameterType="com.msa2024.entity.MemberVO">
+    <update id="updateLoginAttempts" parameterType="MemberVO">
         UPDATE tb_member
         SET member_login_count = #{member_login_count},
             member_account_locked = #{member_account_locked}
@@ -20,27 +20,27 @@
     </update>
 
     <!-- findLockedAccounts -->
-    <select id="findLockedAccounts" resultType="com.msa2024.entity.MemberVO">
+    <select id="findLockedAccounts" resultType="MemberVO">
         SELECT *
         FROM tb_member
         WHERE member_account_locked = 'Y'
     </select>
 
     <!-- findAllMembers -->
-    <select id="findAllMembers" resultType="com.msa2024.entity.MemberVO">
+    <select id="findAllMembers" resultType="MemberVO">
         SELECT *
         FROM tb_member
     </select>
 
     <!-- findById -->
-    <select id="findById" parameterType="String" resultType="com.msa2024.entity.MemberVO">
+    <select id="findById" parameterType="String" resultType="MemberVO">
         SELECT *
         FROM tb_member
         WHERE member_id = #{member_id}
     </select>
 
     <!-- updateMemberLockStatus -->
-    <update id="updateMemberLockStatus" parameterType="com.msa2024.entity.MemberVO">
+    <update id="updateMemberLockStatus" parameterType="MemberVO">
         UPDATE tb_member
         SET member_account_locked = #{member_account_locked}
         WHERE member_id = #{member_id}
